@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SimulationHandler : MonoBehaviour
 {
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +18,9 @@ public class SimulationHandler : MonoBehaviour
     {
         
     }
+}
+
+public class PixelData
+{
+
 }
