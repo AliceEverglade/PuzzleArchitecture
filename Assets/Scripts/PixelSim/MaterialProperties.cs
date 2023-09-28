@@ -15,7 +15,7 @@ public class MaterialProperties : ScriptableObject
         Gas
     }
     public MatterState State;
-    public float[,] SpreadPattern = new float[5,3];
+    public GridCell[] SpreadPattern = new GridCell[15];
 
     public float Density;
 }
@@ -25,4 +25,11 @@ public class PixelColor
 {
     public Color color;
     public float weight;
+}
+
+[Serializable]
+public class GridCell
+{
+    public Vector2 pos;
+    public float value;
 }
