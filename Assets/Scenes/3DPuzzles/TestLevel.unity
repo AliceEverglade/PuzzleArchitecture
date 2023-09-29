@@ -270,7 +270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSnapped: 0
-  pieceMovement: {fileID: 0}
 --- !u!4 &373776897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
@@ -289,8 +288,8 @@ GameObject:
   - component: {fileID: 375721728}
   - component: {fileID: 375721727}
   - component: {fileID: 375721726}
-  - component: {fileID: 375721729}
   - component: {fileID: 375721730}
+  - component: {fileID: 375721731}
   m_Layer: 0
   m_Name: Piece3
   m_TagString: Untagged
@@ -385,23 +384,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375721724}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &375721729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375721724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7e15196e13b4b428f53f15d55c64d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  origin: {x: 0, y: 0, z: 0}
-  startPos: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  snapReset: 0
-  pieceSnapping: {fileID: 0}
 --- !u!54 &375721730
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -429,6 +411,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &375721731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375721724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692e68f9c01592b4e9e18c1e0846871c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &469679672
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,8 +605,8 @@ GameObject:
   - component: {fileID: 770528366}
   - component: {fileID: 770528365}
   - component: {fileID: 770528364}
-  - component: {fileID: 770528367}
   - component: {fileID: 770528368}
+  - component: {fileID: 770528369}
   m_Layer: 0
   m_Name: Piece2
   m_TagString: Untagged
@@ -707,23 +701,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770528362}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &770528367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770528362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7e15196e13b4b428f53f15d55c64d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  origin: {x: 0, y: 0, z: 0}
-  startPos: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  snapReset: 0
-  pieceSnapping: {fileID: 0}
 --- !u!54 &770528368
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -751,6 +728,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &770528369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770528362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692e68f9c01592b4e9e18c1e0846871c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1309350904
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,8 +752,8 @@ GameObject:
   - component: {fileID: 1309350908}
   - component: {fileID: 1309350907}
   - component: {fileID: 1309350906}
-  - component: {fileID: 1309350909}
   - component: {fileID: 1309350910}
+  - component: {fileID: 1309350911}
   m_Layer: 0
   m_Name: Piece1
   m_TagString: Untagged
@@ -859,23 +848,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309350904}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1309350909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309350904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7e15196e13b4b428f53f15d55c64d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  origin: {x: 0, y: 0, z: 0}
-  startPos: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  snapReset: 0
-  pieceSnapping: {fileID: 0}
 --- !u!54 &1309350910
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -903,6 +875,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1309350911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309350904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692e68f9c01592b4e9e18c1e0846871c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1436145013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,7 +1215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSnapped: 0
-  pieceMovement: {fileID: 0}
 --- !u!1 &1968604268
 GameObject:
   m_ObjectHideFlags: 0
