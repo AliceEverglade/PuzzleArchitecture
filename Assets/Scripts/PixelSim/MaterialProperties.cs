@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="data/PixelMaterial")]
+[CreateAssetMenu(menuName ="Data/PixelMaterial")]
 public class MaterialProperties : ScriptableObject
 {
     public List<PixelColor> Texture;
@@ -12,8 +12,10 @@ public class MaterialProperties : ScriptableObject
     {
         Solid,
         Liquid,
-        Gas
+        Gas,
+        Meta
     }
+
     public MatterState State;
     public GridCell[] SpreadPattern = new GridCell[15];
 
