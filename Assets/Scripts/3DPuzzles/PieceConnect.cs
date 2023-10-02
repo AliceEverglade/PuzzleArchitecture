@@ -7,7 +7,7 @@ public class PieceConnect : MonoBehaviour
 {
     [SerializeField] private ConnectionSO connectionSO;
     [SerializeField] private ConnectionManager connectionManager;
-    public GameObject snappedObject;
+    public GameObject connectedConnector;
 
     private void Start()
     {
@@ -22,8 +22,8 @@ public class PieceConnect : MonoBehaviour
             if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject) && gameObject.transform.parent.GetComponent<PuzzlePiece>().selected)
             {
                 connectionSO.Connect(gameObject, otherPiece.gameObject);
-                snappedObject = otherPiece.gameObject;
-                otherPiece.GetComponent<PieceConnect>().snappedObject = gameObject;
+                connectedConnector = otherPiece.gameObject;
+                otherPiece.GetComponent<PieceConnect>().connectedConnector = gameObject;
             }
         }
     }

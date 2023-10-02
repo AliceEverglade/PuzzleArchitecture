@@ -76,7 +76,12 @@ public class PuzzlePiece : MonoBehaviour
         {
             foreach (GameObject connector in connectionPoints)
             {
-                connectionSO.Disconnect(connector, connector.GetComponent<PieceConnect>().snappedObject);
+                GameObject secondConnector = connector.GetComponent<PieceConnect>().connectedConnector;
+                
+                connectionSO.Disconnect(connector, secondConnector);
+
+                secondConnector.GetComponent<PieceConnect>().connectedConnector = null;
+                connector.GetComponent<PieceConnect>().connectedConnector = null;
             }
         }
     }
