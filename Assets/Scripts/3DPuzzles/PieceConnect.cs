@@ -17,7 +17,7 @@ public class PieceConnect : MonoBehaviour
     private void OnTriggerStay(Collider otherPiece)
     {   
         // Activate Popup UI
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject) && gameObject.transform.parent.GetComponent<PuzzlePiece>().selected)
             {

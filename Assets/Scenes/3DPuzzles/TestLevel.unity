@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 23826312}
   - component: {fileID: 23826316}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection3
   m_TagString: ConnectionPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,6 +441,7 @@ MonoBehaviour:
   connectionPoints: []
   connectionManager: {fileID: 1778778073}
   connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
+  selected: 0
   selectMaterial: {fileID: 2100000, guid: 713cb24018b011e47b49bac3900bf91d, type: 2}
   deselectMaterial: {fileID: 2100000, guid: 55702e8f8b711eb49b8a3dcca86ea954, type: 2}
 --- !u!1 &469679672
@@ -776,6 +777,7 @@ MonoBehaviour:
   connectionPoints: []
   connectionManager: {fileID: 1778778073}
   connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
+  selected: 0
   selectMaterial: {fileID: 2100000, guid: 713cb24018b011e47b49bac3900bf91d, type: 2}
   deselectMaterial: {fileID: 2100000, guid: 55702e8f8b711eb49b8a3dcca86ea954, type: 2}
 --- !u!1 &1309350904
@@ -941,6 +943,7 @@ MonoBehaviour:
   connectionPoints: []
   connectionManager: {fileID: 1778778073}
   connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
+  selected: 0
   selectMaterial: {fileID: 2100000, guid: 713cb24018b011e47b49bac3900bf91d, type: 2}
   deselectMaterial: {fileID: 2100000, guid: 55702e8f8b711eb49b8a3dcca86ea954, type: 2}
 --- !u!1 &1436145013
@@ -1183,7 +1186,7 @@ GameObject:
   - component: {fileID: 1881668083}
   - component: {fileID: 1881668084}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection1
   m_TagString: ConnectionPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1541,7 +1544,7 @@ PrefabInstance:
     - target: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
         type: 3}
       propertyPath: m_Name
-      value: Connection
+      value: Connection2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

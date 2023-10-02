@@ -60,7 +60,8 @@ public class ConnectionManager : MonoBehaviour
             if (connection.Connection1 == c.Connection1 && connection.Connection2 == c.Connection2 || connection.Connection1 == c.Connection2 && connection.Connection2 == c.Connection1)
             {
                 Debug.Log("Connection found.");
-                Connections.Remove(c);
+                Connections.Remove(connection);
+                break;
             }
         }
     }
