@@ -9,7 +9,9 @@ public class DebugMovement : MonoBehaviour
     Vector3 move = new Vector3(0, 0, 0);
     Vector2 rotate = new Vector2(0, 0);
     [SerializeField] float speed = 10f;
-    [SerializeField] float mouseSensitivity = 10f;
+
+    [Range(1000, 3000)]
+    [SerializeField] float mouseSensitivity = 100f;
 
     float xInput;
     float yInput;
@@ -57,12 +59,19 @@ public class DebugMovement : MonoBehaviour
 
     void MouseLook()
     {
+        float mouseX;
+        float mouseY;
+
         if (Input.GetMouseButton(1))
         {
-            rotate.x += Input.GetAxis("Mouse X");
-            rotate.y += Input.GetAxis("Mouse Y");
+            mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSensitivity;
+            mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSensitivity;
 
-            transform.rotation = Quaternion.Euler(-rotate.y * mouseSensitivity, rotate.x * mouseSensitivity, 0.0f);
+            rotate.y += mouseX;
+            rotate.x -= mouseY;
+            rotate.x = Mathf.Clamp(rotate.x, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(rotate.x, rotate.y, 0f);
         }
     }
 }
