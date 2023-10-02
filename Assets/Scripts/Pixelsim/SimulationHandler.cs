@@ -8,8 +8,10 @@ public class SimulationHandler : MonoBehaviour
 {
     public PixelData[,] Grid;
     public List<PixelData> GridList;
+    [SerializeField] private MaterialLibrary library;
     [SerializeField] private GameObject pixelPrefab;
-    [SerializeField] private Vector2Int gridSize;
+    [SerializeField] private float pixelSize;
+    private Vector2Int gridSize;
 
 
     // Start is called before the first frame update
@@ -39,7 +41,7 @@ public class SimulationHandler : MonoBehaviour
 
     public float GetPixelSize(GameObject pixel)
     {
-        return pixel.GetComponent<MeshRenderer>().bounds.size.x;
+        return pixel.GetComponent<MeshRenderer>().bounds.size.x * pixelSize;
     }
 
     [Button]
@@ -54,7 +56,7 @@ public class SimulationHandler : MonoBehaviour
 
         gridSize.x = (int)(worldWidth / GetPixelSize(pixelPrefab));
         gridSize.y = (int)(worldHeight / GetPixelSize(pixelPrefab));
-
+        Debug.Log($"grid is of size x: {gridSize.x} by y: {gridSize.y} for a total of {gridSize.x * gridSize.y} cells.");
         Grid = new PixelData[gridSize.y,gridSize.x];
 
         for (int i = 0; i < Grid.GetLength(0); i++)
@@ -62,11 +64,20 @@ public class SimulationHandler : MonoBehaviour
             for (int j = 0; j < Grid.GetLength(1); j++)
             {
                 Grid[i,j] = new PixelData();
+                GridList.Add(Grid[i,j]);
             }
         }
     }
+
+    [Button]
+    public void ClearGrid()
+    {
+        GridList.Clear();
+        Grid = null;
+    }
 }
 
+[Serializable]
 public class PixelData
 {
     public MaterialProperties properties;
