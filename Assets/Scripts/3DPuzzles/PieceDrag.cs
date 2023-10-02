@@ -10,7 +10,7 @@ public class PieceDrag : MonoBehaviour
     private void OnMouseDown()
     {
         mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-        mouseOffset = gameObject.transform.position - GetMouseWorldPosition();
+        mouseOffset = gameObject.transform.position - GetMouseWorldPosition();        
     }
 
     private Vector3 GetMouseWorldPosition()

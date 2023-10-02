@@ -7,7 +7,7 @@ public class PieceConnect : MonoBehaviour
 {
     [SerializeField] private ConnectionSO connectionSO;
     [SerializeField] private ConnectionManager connectionManager;
-    [SerializeField] private GameObject snappedObject;
+    public GameObject snappedObject;
 
     private void Start()
     {
@@ -15,21 +15,16 @@ public class PieceConnect : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider otherPiece)
-    {
+    {   
         // Activate Popup UI
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject))
+            if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject) && gameObject.transform.parent.GetComponent<PuzzlePiece>().selected)
             {
                 connectionSO.Connect(gameObject, otherPiece.gameObject);
                 snappedObject = otherPiece.gameObject;
+                otherPiece.GetComponent<PieceConnect>().snappedObject = gameObject;
             }
         }
-    }
-
-    private void Update()
-    {
-        Debug.Log("now it got here");
-        connectionSO.Disconnect(gameObject, snappedObject);   
     }
 }
