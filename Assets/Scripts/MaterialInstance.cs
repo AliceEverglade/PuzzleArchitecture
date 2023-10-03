@@ -14,11 +14,14 @@ public class MaterialInstance : MonoBehaviour
     {
         go = this.gameObject;
         material = GetComponent<MeshRenderer>().material;
+        BorderColor = new Color(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        material.color = BaseColor;
+        material.SetColor("_BaseColor", BaseColor);
+        material.SetColor("_BaseColor", BaseColor);
+        material.SetFloat("_Selected", Selected ? 1f : 0f);
     }
 }
