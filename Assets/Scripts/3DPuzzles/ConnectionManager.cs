@@ -5,7 +5,7 @@ using System;
 
 public class ConnectionManager : MonoBehaviour
 {
-    public List<Connection> Connections;
+    public static List<Connection> Connections;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class ConnectionManager : MonoBehaviour
     {
         foreach (Connection connection in Connections)
         {
-            connection.Move();
+            connection.Follow();
         }
     }
 
@@ -68,18 +68,47 @@ public class ConnectionManager : MonoBehaviour
 
     public void ChangeMainPiece(GameObject piece)
     {
+        Debug.Log(piece.name);
+        
         foreach (Connection connection in Connections)
         {
             if (connection.CheckConnection(piece))
             {
-                if (connection.Connection1Main && connection.Connection1 == piece)
+                if (connection.Connection1Main && connection.Connection2 == piece)
                 {
-                    connection.Connection1Main = !connection.Connection1Main;
+                    connection.Connection1Main = false;
+
+                    Transform otherPiece = connection.Connection1.transform.parent;
+
+                    // from here
+                    for (int i = 0; i < otherPiece.childCount; i++)
+                    {
+                        if (otherPiece.GetChild(i).gameObject != connection.Connection1) // check tag too btw
+                        {
+                            Debug.Log(otherPiece.GetChild(i).name + "is now the main piece or smth");
+                            ChangeMainPiece(otherPiece.GetChild(i).gameObject);
+                        }
+                    }
+
+
                 }
                 
-                else if (!connection.Connection1Main && connection.Connection2 == piece)
+                else if (!connection.Connection1Main && connection.Connection1 == piece)
                 {
-                    connection.Connection1Main = !connection.Connection1Main;
+                    connection.Connection1Main = true;
+
+                    Transform otherPiece = connection.Connection2.transform.parent;
+
+                    // from here
+
+                    for (int i = 0; i < otherPiece.childCount; i++)
+                    {
+                        if (otherPiece.GetChild(i).gameObject != connection.Connection2) // check tag too btw
+                        {
+                            Debug.Log(otherPiece.GetChild(i).name + "is now the main piece or smth");
+                            ChangeMainPiece(otherPiece.GetChild(i).gameObject);
+                        }
+                    }
                 }
             }
         }
@@ -104,10 +133,10 @@ public class Connection
         return !Connection1Main ? Connection1 : Connection2;
     }
 
-    public void Move()
+    public void Follow()
     {
-        Vector3 distance = GetMain().transform.position - GetSecond().transform.position;
-        GetMain().transform.parent.transform.position -= distance;
+        Vector3 distance = GetSecond().transform.position - GetMain().transform.position;
+        GetSecond().transform.parent.transform.position -= distance;
     }
 
     public bool CheckConnection(GameObject piece)
