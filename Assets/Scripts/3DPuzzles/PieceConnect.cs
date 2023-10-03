@@ -7,7 +7,7 @@ public class PieceConnect : MonoBehaviour
 {
     [SerializeField] private ConnectionSO connectionSO;
     [SerializeField] private ConnectionManager connectionManager;
-    public GameObject connectedConnector;
+    public GameObject connectedConnector = null;
 
     private void Start()
     {

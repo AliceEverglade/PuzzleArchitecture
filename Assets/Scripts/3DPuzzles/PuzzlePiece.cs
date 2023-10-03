@@ -58,7 +58,10 @@ public class PuzzlePiece : MonoBehaviour
                 {
                     Debug.Log("hit");
                     selected = true;
-                    connectionManager.ChangeMainPiece(gameObject.transform.GetChild(0).gameObject);
+                    for (int i = 0; i < connectionPoints.Count; i++)
+                    {
+                        connectionManager.ChangeMainPiece(gameObject.transform.GetChild(i).gameObject);
+                    }
                 }
                 else { selected = false; }
             }
@@ -80,8 +83,11 @@ public class PuzzlePiece : MonoBehaviour
                 
                 connectionSO.Disconnect(connector, secondConnector);
 
-                secondConnector.GetComponent<PieceConnect>().connectedConnector = null;
-                connector.GetComponent<PieceConnect>().connectedConnector = null;
+                if (connector.GetComponent<PieceConnect>().connectedConnector != null)
+                {
+                    secondConnector.GetComponent<PieceConnect>().connectedConnector = null;
+                    connector.GetComponent<PieceConnect>().connectedConnector = null;
+                }
             }
         }
     }

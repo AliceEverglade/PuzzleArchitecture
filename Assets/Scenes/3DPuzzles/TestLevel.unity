@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
   connectionManager: {fileID: 0}
-  snappedObject: {fileID: 0}
+  connectedConnector: {fileID: 0}
 --- !u!4 &373776897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
@@ -649,6 +649,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 373776897}
+  - {fileID: 1899705137}
   m_Father: {fileID: 2004458760}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -780,6 +781,85 @@ MonoBehaviour:
   selected: 0
   selectMaterial: {fileID: 2100000, guid: 713cb24018b011e47b49bac3900bf91d, type: 2}
   deselectMaterial: {fileID: 2100000, guid: 55702e8f8b711eb49b8a3dcca86ea954, type: 2}
+--- !u!1001 &800407503
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 770528363}
+    m_Modifications:
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151397101673102728, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: connectionSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e,
+        type: 2}
+    - target: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
+        type: 3}
+      propertyPath: m_Name
+      value: Connection4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0c375a2e64e224040be263ea93f3cd7d, type: 3}
 --- !u!1 &1309350904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1399,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
   connectionManager: {fileID: 0}
-  snappedObject: {fileID: 0}
+  connectedConnector: {fileID: 0}
+--- !u!4 &1899705137 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1459092684242282675, guid: 0c375a2e64e224040be263ea93f3cd7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 800407503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1968604268
 GameObject:
   m_ObjectHideFlags: 0
