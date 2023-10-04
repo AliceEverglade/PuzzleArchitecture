@@ -5,7 +5,7 @@ using System;
 
 public class ConnectionManager : MonoBehaviour
 {
-    public static List<Connection> Connections;
+    public List<Connection> Connections;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +50,7 @@ public class ConnectionManager : MonoBehaviour
     private void AddConnection(Connection c)
     {
         Connections.Add(c);
+        ChangeMainPiece(c.Connection2);
     }
 
     private void RemoveConnection(Connection c)
@@ -74,42 +75,37 @@ public class ConnectionManager : MonoBehaviour
         {
             if (connection.CheckConnection(piece))
             {
+                // if the main piece is the first connection and the second connection is the piece
                 if (connection.Connection1Main && connection.Connection2 == piece)
                 {
                     connection.Connection1Main = false;
 
                     Transform otherPiece = connection.Connection1.transform.parent;
 
-                    // from here
-                    for (int i = 0; i < otherPiece.childCount; i++)
-                    {
-                        if (otherPiece.GetChild(i).gameObject != connection.Connection1) // check tag too btw
-                        {
-                            Debug.Log(otherPiece.GetChild(i).name + "is now the main piece or smth");
-                            ChangeMainPiece(otherPiece.GetChild(i).gameObject);
-                        }
-                    }
-
-
+                    CheckConnectedPiece(otherPiece, connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
                 }
-                
+
+                // if the main piece is the second connection and the first connection is the piece
                 else if (!connection.Connection1Main && connection.Connection1 == piece)
                 {
                     connection.Connection1Main = true;
 
                     Transform otherPiece = connection.Connection2.transform.parent;
 
-                    // from here
-
-                    for (int i = 0; i < otherPiece.childCount; i++)
-                    {
-                        if (otherPiece.GetChild(i).gameObject != connection.Connection2) // check tag too btw
-                        {
-                            Debug.Log(otherPiece.GetChild(i).name + "is now the main piece or smth");
-                            ChangeMainPiece(otherPiece.GetChild(i).gameObject);
-                        }
-                    }
+                    CheckConnectedPiece(otherPiece, !connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
                 }
+            }
+        }
+    }
+    
+    public void CheckConnectedPiece(Transform piece, GameObject targetPiece)
+    {
+        for (int i = 0; i < piece.childCount; i++)
+        {
+            if (piece.GetChild(i).gameObject != targetPiece) // check tag too btw
+            {
+                Debug.Log(piece.GetChild(i).name + "is now the main piece or smth");
+                ChangeMainPiece(piece.GetChild(i).gameObject);
             }
         }
     }

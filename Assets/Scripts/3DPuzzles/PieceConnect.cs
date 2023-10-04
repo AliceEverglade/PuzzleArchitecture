@@ -24,6 +24,7 @@ public class PieceConnect : MonoBehaviour
                 connectionSO.Connect(gameObject, otherPiece.gameObject);
                 connectedConnector = otherPiece.gameObject;
                 otherPiece.GetComponent<PieceConnect>().connectedConnector = gameObject;
+                connectionManager.ChangeMainPiece(gameObject);
             }
         }
     }
