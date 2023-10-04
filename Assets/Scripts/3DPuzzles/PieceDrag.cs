@@ -6,11 +6,16 @@ public class PieceDrag : MonoBehaviour
 {
     private Vector3 mouseOffset;
     private float mouseZ;
-    
+    private bool snapped = false;
+
     private void OnMouseDown()
     {
+        getMouseOffset();
+    }
+
+    private void getMouseOffset() {
         mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-        mouseOffset = gameObject.transform.position - GetMouseWorldPosition();        
+        mouseOffset = gameObject.transform.position - GetMouseWorldPosition();
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -23,6 +28,19 @@ public class PieceDrag : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.position = GetMouseWorldPosition() + mouseOffset;
+        if (Input.GetKey(KeyCode.F)) //check if you CAN snap
+        {
+            snapped = true;
+        }
+        
+        if (!snapped)
+        {
+            transform.position = GetMouseWorldPosition() + mouseOffset;
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        snapped = false;
     }
 }

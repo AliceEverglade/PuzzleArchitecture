@@ -58,6 +58,9 @@ public class PuzzlePiece : MonoBehaviour
                 {
                     Debug.Log("hit");
                     selected = true;
+
+                    connectionManager.checkedConnectors.Clear();
+                    
                     for (int i = 0; i < connectionPoints.Count; i++)
                     {
                         connectionManager.ChangeMainPiece(gameObject.transform.GetChild(i).gameObject);

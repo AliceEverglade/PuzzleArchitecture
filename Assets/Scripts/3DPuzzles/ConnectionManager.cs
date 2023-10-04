@@ -6,6 +6,7 @@ using System;
 public class ConnectionManager : MonoBehaviour
 {
     public List<Connection> Connections;
+    public List<GameObject> checkedConnectors;
 
     // Start is called before the first frame update
     void Start()
@@ -73,8 +74,11 @@ public class ConnectionManager : MonoBehaviour
         
         foreach (Connection connection in Connections)
         {
-            if (connection.CheckConnection(piece))
+            if (connection.CheckConnection(piece) && !checkedConnectors.Contains(piece))
             {
+                checkedConnectors.Add(connection.Connection1);
+                checkedConnectors.Add(connection.Connection2);
+
                 // if the main piece is the first connection and the second connection is the piece
                 if (connection.Connection1Main && connection.Connection2 == piece)
                 {
