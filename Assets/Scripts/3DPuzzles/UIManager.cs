@@ -2,35 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    GameObject connectUIElement;
+    Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
+
     public static event Action<bool> OnUIChange;
 
     private void Start()
     {
-        connectUIElement = GameObject.Find("ConnectUI");
-        connectUIElement.SetActive(false);
+        UIElements.Add("ConnectUI", GameObject.Find("ConnectUI"));
+        UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrNoWinUI"));
+        
+        foreach (KeyValuePair<string, GameObject> UIElement in UIElements)
+        {
+            UIElement.Value.SetActive(false);
+        }
     }
 
     void OnEnable()
     {
         PieceConnect.ToggleConnectUI += ConnectUI;
+        ConnectionManager.WinOrLose += ConnectUI;
     }
 
     void OnDisable()
     {
         PieceConnect.ToggleConnectUI -= ConnectUI;
+        ConnectionManager.WinOrLose -= ConnectUI;
     }
 
-    void ConnectUI(bool toggle)
+    public void ConnectUI(bool toggle, string key, string text, Color? color)
     {
-        connectUIElement.SetActive(toggle);
+        UIElements[key].SetActive(toggle);
+        if (text != null)
+        {
+            ChangeText(UIElements[key], text, color);
+        }
     }
 
-    bool GetUIState()
+    public void ChangeText(GameObject textObject, string text, Color? color)
     {
-        return connectUIElement.activeSelf;
+        textObject.GetComponent<TMP_Text>().text = text;
+        if (color != null)
+        {
+            textObject.GetComponent<TMP_Text>().color = (Color)color;
+        }
+    }
+
+    bool GetUIState(string key)
+    {
+        return UIElements[key].activeSelf;
     }
 }

@@ -10,7 +10,7 @@ public class PieceConnect : MonoBehaviour
     [SerializeField] private ConnectionManager connectionManager;
     public GameObject connectedConnector = null;
 
-    public static event Action<bool> ToggleConnectUI;
+    public static event Action<bool, string, string, Color?> ToggleConnectUI;
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class PieceConnect : MonoBehaviour
         // Activate Popup UI
         if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject))
         {
-            ToggleConnectUI?.Invoke(true);
+            ToggleConnectUI?.Invoke(true, "ConnectUI", null, null);
 
             if (Input.GetKey(KeyCode.F))
             {
@@ -35,13 +35,13 @@ public class PieceConnect : MonoBehaviour
                     connectionManager.ChangeMainPiece(gameObject);
                 }
 
-                ToggleConnectUI?.Invoke(false);
+                ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        ToggleConnectUI?.Invoke(false);
+        ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
     }
 }

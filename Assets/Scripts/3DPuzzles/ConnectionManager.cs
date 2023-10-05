@@ -6,7 +6,11 @@ using System;
 public class ConnectionManager : MonoBehaviour
 {
     public List<Connection> Connections;
-    public List<GameObject> checkedConnectors;
+    public List<GameObject> CheckedConnectors;
+    public List<Connection> FinalConnections;
+    public bool WinLose = false;
+
+    public static event Action<bool, string, string, Color?> WinOrLose;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +24,16 @@ public class ConnectionManager : MonoBehaviour
         foreach (Connection connection in Connections)
         {
             connection.Follow();
+        }
+
+        if (Connections.Count == FinalConnections.Count && !WinLose)
+        {
+            CheckConnectionsList();
+        }
+        else if (Connections.Count != FinalConnections.Count)
+        {
+            WinOrLose?.Invoke(false, "WinOrNoWinUI", null, null);
+            WinLose = false;
         }
     }
 
@@ -68,16 +82,45 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
+    private void CheckConnectionsList()
+    {
+        int correctConnections = 0;
+
+        foreach (Connection connection in Connections)
+        {
+            foreach (Connection finalConnection in FinalConnections)
+            {
+                if (connection.Connection1 == finalConnection.Connection1 && connection.Connection2 == finalConnection.Connection2 || connection.Connection1 == finalConnection.Connection2 && connection.Connection2 == finalConnection.Connection1)
+                {
+                    correctConnections++;
+                }
+            }
+        }
+
+        if (correctConnections == FinalConnections.Count)
+        {
+            Debug.Log("Hell yeah now we've got Business!!!");
+            WinOrLose?.Invoke(true, "WinOrNoWinUI", "Congratulations, you have completed the puzzle!", new Vector4(0.06f, 0.85f, 0.39f, 1f));
+        }
+        else
+        {
+            Debug.Log("FVCK.");
+            WinOrLose?.Invoke(true, "WinOrNoWinUI", "There seems to be a mistake!", new Vector4(0.85f, 0.06f, 0.26f, 1f));
+        }
+
+        WinLose = true;
+    }
+
     public void ChangeMainPiece(GameObject piece)
     {
         Debug.Log(piece.name);
         
         foreach (Connection connection in Connections)
         {
-            if (connection.CheckConnection(piece) && !checkedConnectors.Contains(piece))
+            if (connection.CheckConnection(piece) && !CheckedConnectors.Contains(piece))
             {
-                checkedConnectors.Add(connection.Connection1);
-                checkedConnectors.Add(connection.Connection2);
+                CheckedConnectors.Add(connection.Connection1);
+                CheckedConnectors.Add(connection.Connection2);
 
                 // if the main piece is the first connection and the second connection is the piece
                 if (connection.Connection1Main && connection.Connection2 == piece)
@@ -106,7 +149,7 @@ public class ConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < piece.childCount; i++)
         {
-            if (piece.GetChild(i).gameObject != targetPiece) // check tag too btw
+            if (piece.GetChild(i).gameObject != targetPiece && piece.GetChild(i).CompareTag("ConnectionPoint"))
             {
                 Debug.Log(piece.GetChild(i).name + "is now the main piece or smth");
                 ChangeMainPiece(piece.GetChild(i).gameObject);
