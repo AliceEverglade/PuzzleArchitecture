@@ -14,6 +14,8 @@ public class SimulationHandler : MonoBehaviour
     [SerializeField] private GameObject pixelPrefab;
     [SerializeField] private float pixelSize;
     private Vector2Int gridSize;
+    private float width;
+    private float height;
 
     [SerializeField] private GameObject[] boundary = new GameObject[2];
 
@@ -51,18 +53,24 @@ public class SimulationHandler : MonoBehaviour
     [Button]
     public void GenerateGrid()
     {
-        float aspect = (float)Screen.width / Screen.height;
+        height = MathF.Abs(
+            Camera.main.ScreenToWorldPoint(boundary[0].transform.position).y - 
+            Camera.main.ScreenToWorldPoint(boundary[1].transform.position).y);
 
-        float worldHeight = Camera.main.orthographicSize * 2;
+        width = MathF.Abs(
+            Camera.main.ScreenToWorldPoint(boundary[0].transform.position).x - 
+            Camera.main.ScreenToWorldPoint(boundary[1].transform.position).x);
 
-        float worldWidth = worldHeight * aspect;
+        Vector3 start = Camera.main.ScreenToWorldPoint( 
+            new Vector3(
+                boundary[0].transform.position.x, 
+                boundary[0].transform.position.y, 
+                Camera.main.nearClipPlane));
 
-        Vector3 start = Camera.main.ScreenToWorldPoint( new Vector3(0,0, Camera.main.nearClipPlane));
-
-        gridSize.x = (int)(worldWidth / (GetPixelSize(pixelPrefab) / 2));
-        gridSize.y = (int)(worldHeight / (GetPixelSize(pixelPrefab) / 2));
+        gridSize.x = (int)(width / (GetPixelSize(pixelPrefab)));
+        gridSize.y = (int)(height / (GetPixelSize(pixelPrefab)));
         Debug.Log($"grid is of size x: {gridSize.x} by y: {gridSize.y} for a total of {gridSize.x * gridSize.y} cells.");
-        Grid = new PixelData[gridSize.y,gridSize.x];
+        Grid = new PixelData[gridSize.x,gridSize.y];
 
         for (int i = 0; i < Grid.GetLength(0); i++)
         {
@@ -72,8 +80,8 @@ public class SimulationHandler : MonoBehaviour
                 GridList.Add(Grid[i,j]);
                 GameObject pixel =  Instantiate(pixelPrefab, 
                     new Vector3(
-                        i * GetPixelSize(pixelPrefab) - GetPixelSize(pixelPrefab) + start.x, 
-                        -j * GetPixelSize(pixelPrefab) + GetPixelSize(pixelPrefab) - start.y, 
+                        i * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x, 
+                        -j * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y, 
                         this.transform.position.z),
                     Quaternion.identity,this.gameObject.transform);
                 pixel.transform.localScale = new Vector3(pixelSize,pixelSize,pixelSize);
@@ -95,6 +103,19 @@ public class SimulationHandler : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
 
+    }
+
+    [Button]
+    public void GetCellCount()
+    {
+        height = MathF.Abs(
+            Camera.main.ScreenToWorldPoint(boundary[0].transform.position).y -
+            Camera.main.ScreenToWorldPoint(boundary[1].transform.position).y);
+
+        width = MathF.Abs(
+            Camera.main.ScreenToWorldPoint(boundary[0].transform.position).x -
+            Camera.main.ScreenToWorldPoint(boundary[1].transform.position).x);
+        Debug.Log((int)(width / (GetPixelSize(pixelPrefab) / 2)) * (int)(height / (GetPixelSize(pixelPrefab) / 2)));
     }
 }
 
