@@ -1,12 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PieceDrag : MonoBehaviour
 {
     private Vector3 mouseOffset;
     private float mouseZ;
     private bool snapped = false;
+    private bool canSnap = false;
+
+    void OnEnable()
+    {
+        UIManager.OnUIChange += ToggleSnapability;
+    }
+
+    void OnDisable()
+    {
+        UIManager.OnUIChange -= ToggleSnapability;
+    }
 
     private void OnMouseDown()
     {
@@ -28,7 +40,7 @@ public class PieceDrag : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (Input.GetKey(KeyCode.F)) //check if you CAN snap
+        if (Input.GetKey(KeyCode.F) && canSnap) //check if you CAN snap
         {
             snapped = true;
         }
@@ -37,6 +49,11 @@ public class PieceDrag : MonoBehaviour
         {
             transform.position = GetMouseWorldPosition() + mouseOffset;
         }
+    }
+
+    private void ToggleSnapability(bool toggle)
+    {
+        canSnap = toggle;
     }
 
     private void OnMouseUp()
