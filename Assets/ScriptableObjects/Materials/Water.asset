@@ -12,37 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5648b92195c369f4aa2a0141aa451c1b, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: 
-  Texture: []
+  MaterialName: Water
+  Texture:
+  - color: {r: 0.3537736, g: 0.4049435, b: 1, a: 0}
   State: 1
   SpreadPattern:
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
-  - pos: {x: 0, y: 0}
-    value: 0
+  - {x: -1653536648, y: 576}
+  - {x: 1, y: 0}
+  - {x: -503527296, y: 574}
+  - {x: 33, y: 0}
+  - {x: -1653536648, y: 576}
+  - {x: -1653536616, y: 576}
+  - {x: -503527264, y: 574}
+  - {x: 49, y: 577}
+  - {x: -1653536648, y: 576}
+  - {x: -1653536616, y: 576}
+  - {x: -1653536584, y: 576}
+  - {x: 1, y: 0}
+  - {x: -503527232, y: 574}
+  - {x: 65, y: 0}
+  - {x: -1653536648, y: 576}
   Density: 0

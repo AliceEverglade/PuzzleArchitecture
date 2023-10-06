@@ -13,9 +13,11 @@ public class SimulationHandler : MonoBehaviour
     [SerializeField] private MaterialLibrary library;
     [SerializeField] private GameObject pixelPrefab;
     [SerializeField] private float pixelSize;
+    [SerializeField] private float resolution;
     private Vector2Int gridSize;
     private float width;
     private float height;
+    private float groundLevel => gridSize.y - (gridSize.y / 3);
 
     [SerializeField] private GameObject[] boundary = new GameObject[2];
 
@@ -23,7 +25,7 @@ public class SimulationHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenerateGrid();
     }
 
     // Update is called once per frame
@@ -47,12 +49,13 @@ public class SimulationHandler : MonoBehaviour
 
     public float GetPixelSize(GameObject pixel)
     {
-        return pixel.GetComponent<MeshRenderer>().bounds.size.x * pixelSize;
+        return pixel.GetComponent<MeshRenderer>().bounds.size.x * pixelSize / resolution;
     }
 
     [Button]
     public void GenerateGrid()
     {
+        #region field variables
         height = MathF.Abs(
             Camera.main.ScreenToWorldPoint(boundary[0].transform.position).y - 
             Camera.main.ScreenToWorldPoint(boundary[1].transform.position).y);
@@ -71,23 +74,49 @@ public class SimulationHandler : MonoBehaviour
         gridSize.y = (int)(height / (GetPixelSize(pixelPrefab)));
         Debug.Log($"grid is of size x: {gridSize.x} by y: {gridSize.y} for a total of {gridSize.x * gridSize.y} cells.");
         Grid = new PixelData[gridSize.x,gridSize.y];
+        #endregion
 
+        #region generation loop
         for (int i = 0; i < Grid.GetLength(0); i++)
         {
             for (int j = 0; j < Grid.GetLength(1); j++)
             {
-                Grid[i,j] = new PixelData();
-                GridList.Add(Grid[i,j]);
-                GameObject pixel =  Instantiate(pixelPrefab, 
+                Grid[i, j] = GenerateData(i,j);
+                GridList.Add(Grid[i, j]);
+                GameObject pixel = Instantiate(pixelPrefab,
                     new Vector3(
-                        i * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x, 
-                        -j * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y, 
+                        i * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x,
+                        -j * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y,
                         this.transform.position.z),
-                    Quaternion.identity,this.gameObject.transform);
-                pixel.transform.localScale = new Vector3(pixelSize,pixelSize,pixelSize);
+                    Quaternion.identity, this.gameObject.transform);
+                pixel.transform.localScale = new Vector3(pixelSize / resolution, pixelSize / resolution, pixelSize / resolution);
+                pixel.GetComponent<MaterialInstance>().BaseColor = Grid[i, j].color;
                 Pixels.Add(pixel);
             }
         }
+        #endregion
+    }
+
+    public PixelData GenerateData(int i, int j)
+    {
+        PixelData pxData = new PixelData();
+        #region material selection
+        if (i == 0 || j == 0 || i == gridSize.x - 1 || j == gridSize.y - 1)
+        {
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.BoundaryRock);
+        }
+        else if (j > groundLevel) // might be i
+        {
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Brick);
+        }
+        else
+        {
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Air);
+        }
+        #endregion
+        pxData.position = new Vector2Int(i, j);
+        pxData.color = pxData.properties.GetColor(new Vector2Int(i,j));
+        return pxData;
     }
 
     [Button]
@@ -123,7 +152,7 @@ public class SimulationHandler : MonoBehaviour
 public class PixelData
 {
     public MaterialProperties properties;
-    public Vector2 position;
+    public Vector2Int position;
     public Color color;
 
     [Range(0,1)]

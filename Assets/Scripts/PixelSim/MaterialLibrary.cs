@@ -10,9 +10,24 @@ public class MaterialLibrary : ScriptableObject
 
     public enum MaterialNames
     {
+        Air,
         Water,
         Sand,
-        Brick
+        Brick,
+        Dirt,
+        BoundaryRock
+    }
+
+    public MaterialProperties GetProperty(MaterialNames key)
+    {
+        foreach (MaterialData data in Materials)
+        {
+            if(data.key == key)
+            {
+                return data.Value;
+            }
+        }
+        return null;
     }
 }
 
