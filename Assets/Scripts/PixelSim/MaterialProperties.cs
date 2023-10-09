@@ -27,7 +27,7 @@ public class MaterialProperties : ScriptableObject
     }
 
     public MatterState State;
-    public List<Vector2Int> SpreadPattern;
+    public SpreadPatternData SpreadPattern;
 
     public float Density;
 
@@ -40,8 +40,8 @@ public class MaterialProperties : ScriptableObject
             switch (style)
             {
                 case textureStyle.Static:
-                    x = pos.x > textureSize ? pos.x % textureSize : pos.x;
-                    y = pos.y > textureSize ? pos.y % textureSize : pos.y;
+                    x = pos.x > textureSize - 1 ? pos.x % textureSize : pos.x;
+                    y = pos.y > textureSize - 1 ? pos.y % textureSize : pos.y;
                     return texture.GetPixel(x, y);
                 case textureStyle.Random:
                     x = UnityEngine.Random.Range(0, textureSize);
@@ -49,6 +49,6 @@ public class MaterialProperties : ScriptableObject
                     return texture.GetPixel(x, y);
             }
         }
-        return Color.magenta;
+        return pos.x % 2 == 0 ^ pos.y % 2 == 0 ?  Color.magenta : Color.black;
     }
 }

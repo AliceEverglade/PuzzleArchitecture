@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5648b92195c369f4aa2a0141aa451c1b, type: 3}
-  m_Name: Sand
+  m_Name: Concrete
   m_EditorClassIdentifier: 
-  MaterialName: Sand
-  texture: {fileID: 2800000, guid: 2a33cf8ae05bb0e4b84389ca5b04a2b6, type: 3}
+  MaterialName: Concrete
+  texture: {fileID: 2800000, guid: a081ddc4ba1c54c41a7f776777aa868e, type: 3}
   textureSize: 5
   style: 1
   State: 0
-  SpreadPattern: {fileID: 11400000, guid: e8b4aac958caa964ab262aa1f3101577, type: 2}
-  Density: 0
+  SpreadPattern: {fileID: 11400000, guid: 457a824c61272ff47b376259b1bbaffc, type: 2}
+  Density: 4

@@ -105,9 +105,9 @@ public class SimulationHandler : MonoBehaviour
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.BoundaryRock);
         }
-        else if (j > groundLevel) // might be i
+        else if (j > groundLevel)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Brick);
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Water);
         }
         else
         {

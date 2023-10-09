@@ -15,6 +15,7 @@ public class MaterialLibrary : ScriptableObject
         Sand,
         Brick,
         Dirt,
+        Concrete,
         BoundaryRock
     }
 

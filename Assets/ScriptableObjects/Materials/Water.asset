@@ -13,23 +13,9 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   MaterialName: Water
-  Texture:
-  - color: {r: 0.3537736, g: 0.4049435, b: 1, a: 0}
+  texture: {fileID: 2800000, guid: 4825beb7bc67cb84daa318f0f7ac5270, type: 3}
+  textureSize: 5
+  style: 1
   State: 1
-  SpreadPattern:
-  - {x: -1653536648, y: 576}
-  - {x: 1, y: 0}
-  - {x: -503527296, y: 574}
-  - {x: 33, y: 0}
-  - {x: -1653536648, y: 576}
-  - {x: -1653536616, y: 576}
-  - {x: -503527264, y: 574}
-  - {x: 49, y: 577}
-  - {x: -1653536648, y: 576}
-  - {x: -1653536616, y: 576}
-  - {x: -1653536584, y: 576}
-  - {x: 1, y: 0}
-  - {x: -503527232, y: 574}
-  - {x: 65, y: 0}
-  - {x: -1653536648, y: 576}
-  Density: 0
+  SpreadPattern: {fileID: 11400000, guid: d2429aad3ac328d49836f078cc97eb01, type: 2}
+  Density: 1

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5648b92195c369f4aa2a0141aa451c1b, type: 3}
-  m_Name: Sand
+  m_Name: BoundaryRock
   m_EditorClassIdentifier: 
-  MaterialName: Sand
-  texture: {fileID: 2800000, guid: 2a33cf8ae05bb0e4b84389ca5b04a2b6, type: 3}
-  textureSize: 5
-  style: 1
-  State: 0
-  SpreadPattern: {fileID: 11400000, guid: e8b4aac958caa964ab262aa1f3101577, type: 2}
-  Density: 0
+  MaterialName: Boundary Rock
+  texture: {fileID: 2800000, guid: 3a5af9ea8a5d39f429d5229abfe2d792, type: 3}
+  textureSize: 1
+  style: 0
+  State: 4
+  SpreadPattern: {fileID: 11400000, guid: d3175e322cdde6740a7dbc6c599272ea, type: 2}
+  Density: 999
