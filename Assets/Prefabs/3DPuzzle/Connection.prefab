@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7ceb1ff2c411943a3ea1e457213e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSnapped: 0
-  pieceMovement: {fileID: 0}
+  connectionSO: {fileID: 11400000, guid: f034474c47c96d44fab3ba8747de9a8e, type: 2}
+  connectionManager: {fileID: 0}
+  connectedConnector: {fileID: 0}
