@@ -30,12 +30,14 @@ public class ConnectorSpawner : MonoBehaviour
         if (transform.parent.CompareTag("PieceContainer"))
         {
             pieceID = transform.parent.GetComponent<PieceID>().ID;
-            connector.transform.parent = gameObject.transform;
+            connector.transform.parent = gameObject.transform.parent.transform;
+            connector.transform.position = gameObject.transform.position;
         }
         else if (transform.CompareTag("PieceContainer"))
         {
             pieceID = GetComponent<PieceID>().ID;
             connector.transform.parent = gameObject.transform;
+            connector.transform.position = gameObject.transform.position;
         }
 
         connector.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
