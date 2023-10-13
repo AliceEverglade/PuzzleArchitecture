@@ -8,18 +8,6 @@ public class ConnectorSpawner : MonoBehaviour
     private Bounds bounds = new Bounds();
     [SerializeField] private GameObject connectorPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     [Button]
     void SpawnConnector()
     {
@@ -37,7 +25,7 @@ public class ConnectorSpawner : MonoBehaviour
         {
             pieceID = GetComponent<PieceID>().ID;
             connector.transform.parent = gameObject.transform;
-            connector.transform.position = gameObject.transform.position;
+            connector.transform.position = bounds.center;
         }
 
         connector.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
@@ -58,16 +46,23 @@ public class ConnectorSpawner : MonoBehaviour
         return currentConnector;
     }
 
-    //[Button]
-    /*void SetBounds()
+    [Button]
+    void SetBounds()
     {
-        bounds = new Bounds();
-
         foreach (Transform child in transform)
         {
-            bounds.size += transform.gameObject.transform.localScale;
+            if (!child.CompareTag("ConnectionPoint"))
+            {
+                bounds.Encapsulate(child.GetComponent<Collider>().bounds);
+            }
         }
 
-        GetComponent<Collider>().bounds.Equals() = ;
-    }*/
+        GetComponent<BoxCollider>().bounds.Encapsulate(bounds);
+        Debug.Log(GetComponent<Collider>().bounds);
+
+        GetComponent<BoxCollider>().size = bounds.size;
+        GetComponent<BoxCollider>().center = bounds.center;
+
+        Debug.Log(bounds);
+    }
 }
