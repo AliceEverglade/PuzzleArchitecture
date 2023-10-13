@@ -8,6 +8,7 @@ using System.Linq;
 public class SimulationHandler : MonoBehaviour
 {
     public PixelData[,] Grid;
+    private PixelData[,] nextFrame;
     public List<PixelData> GridList;
     public List<GameObject> Pixels;
     [SerializeField] private MaterialLibrary library;
@@ -21,7 +22,12 @@ public class SimulationHandler : MonoBehaviour
 
     [SerializeField] private GameObject[] boundary = new GameObject[2];
 
+    [Header("tick settings")]
+    [SerializeField] private bool frameReady = false;
+    [SerializeField] private bool done = false;
+    private bool readyForUpdate => done && !frameReady;
 
+    #region start and update
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +39,62 @@ public class SimulationHandler : MonoBehaviour
     {
         
     }
+    #endregion
 
+    #region enable and disable
+    private void OnEnable()
+    {
+        TickUpdateHandler.TickPing += UpdateHandler;
+    }
+
+    private void OnDisable()
+    {
+        TickUpdateHandler.TickPing -= UpdateHandler;
+    }
+    #endregion
+
+    #region GridUpdate
+    private void UpdateHandler()
+    {
+        //testing
+        Debug.Log("update grid");
+        return;
+
+        //end of test
+        if (frameReady)
+        {
+            SendToScreen();
+            frameReady = false;
+        }
+        if (readyForUpdate)
+        {
+            done = false;
+            StartCoroutine(UpdateGrid());
+        }
+    }
+
+    private IEnumerator UpdateGrid()
+    {
+        nextFrame = Grid;
+        //check physics for pixels from bottom to top
+        for (int i = Grid.GetLength(0) - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < Grid.GetLength(1); j++)
+            {
+                CalculatePixelPhysics();
+            }
+        }
+        done = true;
+        return null;
+    }
+
+    private void SendToScreen()
+    {
+
+    }
+    #endregion
+
+    #region grid functions
     public float GridPosToIndex(Vector2 pos)
     {
         return gridSize.x * pos.y + pos.x;
@@ -51,6 +112,12 @@ public class SimulationHandler : MonoBehaviour
     {
         return pixel.GetComponent<MeshRenderer>().bounds.size.x * pixelSize / resolution;
     }
+
+    private void CalculatePixelPhysics()
+    {
+
+    }
+    #endregion
 
     [Button]
     public void GenerateGrid()
