@@ -9,7 +9,7 @@ public class TickUpdateHandler : MonoBehaviour
     private bool backendActive;
 
     [Range(0.1f,100f)]
-    public static float TickSpeed;
+    [SerializeField] private float TickSpeed;
 
     public static event Action TickPing;
     // Start is called before the first frame update
@@ -25,9 +25,14 @@ public class TickUpdateHandler : MonoBehaviour
         {
             if (active)
             {
-                TickPing.Invoke();
+                TickPing?.Invoke();
             }
             yield return new WaitForSeconds(1 / TickSpeed);
         }
+    }
+
+    public float GetTickSpeed()
+    {
+        return TickSpeed;
     }
 }

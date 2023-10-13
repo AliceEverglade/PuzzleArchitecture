@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class SimulationHandler : MonoBehaviour
 {
     public PixelData[,] Grid;
     private PixelData[,] nextFrame;
-    public List<PixelData> GridList;
     public List<GameObject> Pixels;
     [SerializeField] private MaterialLibrary library;
     [SerializeField] private GameObject pixelPrefab;
@@ -24,7 +24,7 @@ public class SimulationHandler : MonoBehaviour
 
     [Header("tick settings")]
     [SerializeField] private bool frameReady = false;
-    [SerializeField] private bool done = false;
+    [SerializeField] private bool done = true;
     private bool readyForUpdate => done && !frameReady;
 
     #region start and update
@@ -58,54 +58,62 @@ public class SimulationHandler : MonoBehaviour
     {
         //testing
         Debug.Log("update grid");
-        return;
+
 
         //end of test
         if (frameReady)
         {
             SendToScreen();
-            frameReady = false;
+            
         }
         if (readyForUpdate)
         {
-            done = false;
             StartCoroutine(UpdateGrid());
         }
     }
 
     private IEnumerator UpdateGrid()
     {
+        done = false;
+        Debug.Log("Calculating next frame");
         nextFrame = Grid;
         //check physics for pixels from bottom to top
-        for (int i = Grid.GetLength(0) - 1; i >= 0; i--)
+        for (int x = 0; x < Grid.GetLength(0); x++)
         {
-            for (int j = 0; j < Grid.GetLength(1); j++)
+            for (int y = 0; y < Grid.GetLength(1); y++)
             {
-                CalculatePixelPhysics();
+                Debug.Log($"calculating x: {x}, y: {y}");
+                if (Grid[x,y].properties.State != MaterialProperties.MatterState.Meta)
+                {
+                    //chem check
+                    CalculatePixelPhysics(x, y);
+                }
             }
         }
         done = true;
-        return null;
+        frameReady = true;
+        yield return 0;
     }
 
     private void SendToScreen()
     {
+        Grid = nextFrame;
+        for (int i = 0; i < Grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < Grid.GetLength(1); j++)
+            {
+                Pixels[GridPosToIndex(new Vector2Int(i, j))].GetComponent<MaterialInstance>().BaseColor = Grid[i, j].color;
+            }
+        }
 
+        frameReady = false;
     }
     #endregion
 
     #region grid functions
-    public float GridPosToIndex(Vector2 pos)
+    public int GridPosToIndex(Vector2Int pos)
     {
         return gridSize.x * pos.y + pos.x;
-    }
-
-    public Vector2 IndexToGridPos(float index)
-    {
-        Vector2 output = new Vector2(0,0);
-        output.y = MathF.Floor(index / gridSize.x);
-        output.x = index % gridSize.x;
-        return output;
     }
 
     public float GetPixelSize(GameObject pixel)
@@ -113,9 +121,52 @@ public class SimulationHandler : MonoBehaviour
         return pixel.GetComponent<MeshRenderer>().bounds.size.x * pixelSize / resolution;
     }
 
-    private void CalculatePixelPhysics()
+    private void FlipPixels(Vector2Int pos1, Vector2Int pos2)
+    {
+        PixelData temp = nextFrame[pos1.x, pos1.y];
+        nextFrame[pos1.x, pos1.y] = nextFrame[pos2.x, pos2.y];
+        nextFrame[pos2.x,pos2.y] = temp;
+    }
+
+    private bool CalculatePixelPhysics(int x, int y)
+    {
+        // Debug.Log($"calculate gravity for x: {x}, y: {y}");
+        for(int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++)
+        {
+            Vector2Int targetPos = Grid[x, y].properties.SpreadPattern.Pattern[i];
+            if(!(
+                targetPos.x + x < 0 || 
+                targetPos.y + y < 0 || 
+                targetPos.x + x >= Grid.GetLength(1) || 
+                targetPos.y + y >= Grid.GetLength(0)
+                ))
+            {
+                if (!Grid[x, y].properties.SpreadPattern.GoesUp)
+                {
+                    if (nextFrame[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Liquid ||
+                        nextFrame[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Gas)
+                    {
+                        if (nextFrame[x + targetPos.x, y + targetPos.y].properties.Density < nextFrame[x, y].properties.Density)
+                        {
+                            FlipPixels(new Vector2Int(x, y), targetPos);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void CalculatePixelChemistry(int x, int y)
     {
 
+    }
+
+    private void SetPixelData(GameObject pixel,int x, int y)
+    {
+        pixel.GetComponent<MaterialInstance>().BaseColor = Grid[x, y].color;
+        pixel.GetComponent<PixelDataHolder>().data = Grid[x, y];
     }
     #endregion
 
@@ -137,8 +188,8 @@ public class SimulationHandler : MonoBehaviour
                 boundary[0].transform.position.y, 
                 Camera.main.nearClipPlane));
 
-        gridSize.x = (int)(width / (GetPixelSize(pixelPrefab)));
-        gridSize.y = (int)(height / (GetPixelSize(pixelPrefab)));
+        gridSize.x = (int)(Mathf.Floor(width / (GetPixelSize(pixelPrefab))));
+        gridSize.y = (int)(Mathf.Floor(height / (GetPixelSize(pixelPrefab))));
         Debug.Log($"grid is of size x: {gridSize.x} by y: {gridSize.y} for a total of {gridSize.x * gridSize.y} cells.");
         Grid = new PixelData[gridSize.x,gridSize.y];
         #endregion
@@ -149,7 +200,6 @@ public class SimulationHandler : MonoBehaviour
             for (int j = 0; j < Grid.GetLength(1); j++)
             {
                 Grid[i, j] = GenerateData(i,j);
-                GridList.Add(Grid[i, j]);
                 GameObject pixel = Instantiate(pixelPrefab,
                     new Vector3(
                         i * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x,
@@ -157,10 +207,12 @@ public class SimulationHandler : MonoBehaviour
                         this.transform.position.z),
                     Quaternion.identity, this.gameObject.transform);
                 pixel.transform.localScale = new Vector3(pixelSize / resolution, pixelSize / resolution, pixelSize / resolution);
-                pixel.GetComponent<MaterialInstance>().BaseColor = Grid[i, j].color;
+                
+                SetPixelData(pixel,i, j);
                 Pixels.Add(pixel);
             }
         }
+
         #endregion
     }
 
@@ -176,6 +228,10 @@ public class SimulationHandler : MonoBehaviour
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Water);
         }
+        else if (j == gridSize.y - groundLevel)
+        {
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
+        }
         else
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Air);
@@ -189,7 +245,6 @@ public class SimulationHandler : MonoBehaviour
     [Button]
     public void ClearGrid()
     {
-        GridList.Clear();
         Pixels.Clear();
         Grid = null;
         List<Transform> children = GetComponentsInChildren<Transform>().ToList();
