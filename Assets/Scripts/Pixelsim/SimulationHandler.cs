@@ -27,6 +27,12 @@ public class SimulationHandler : MonoBehaviour
     [SerializeField] private bool done = true;
     private bool readyForUpdate => done && !frameReady;
 
+    public enum Axis
+    {
+        x = 0,
+        y = 1
+    }
+
     #region start and update
     // Start is called before the first frame update
     void Start()
@@ -75,14 +81,12 @@ public class SimulationHandler : MonoBehaviour
     private IEnumerator UpdateGrid()
     {
         done = false;
-        Debug.Log("Calculating next frame");
         nextFrame = Grid;
         //check physics for pixels from bottom to top
-        for (int x = 0; x < Grid.GetLength(0); x++)
+        for (int y = 0; y < Grid.GetLength((int)Axis.y); y++)
         {
-            for (int y = 0; y < Grid.GetLength(1); y++)
+            for (int x = 0; x < Grid.GetLength((int)Axis.x); x++)
             {
-                Debug.Log($"calculating x: {x}, y: {y}");
                 if (Grid[x,y].properties.State != MaterialProperties.MatterState.Meta)
                 {
                     //chem check
@@ -90,6 +94,7 @@ public class SimulationHandler : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Frame done");
         done = true;
         frameReady = true;
         yield return 0;
@@ -98,11 +103,11 @@ public class SimulationHandler : MonoBehaviour
     private void SendToScreen()
     {
         Grid = nextFrame;
-        for (int i = 0; i < Grid.GetLength(0); i++)
+        for (int y = 0; y < Grid.GetLength((int)Axis.y); y++)
         {
-            for (int j = 0; j < Grid.GetLength(1); j++)
+            for (int x = 0; x < Grid.GetLength((int)Axis.x); x++)
             {
-                Pixels[GridPosToIndex(new Vector2Int(i, j))].GetComponent<MaterialInstance>().BaseColor = Grid[i, j].color;
+                Pixels[GridPosToIndex(new Vector2Int(x, y))].GetComponent<MaterialInstance>().BaseColor = Grid[x, y].color;
             }
         }
 
@@ -113,7 +118,7 @@ public class SimulationHandler : MonoBehaviour
     #region grid functions
     public int GridPosToIndex(Vector2Int pos)
     {
-        return gridSize.x * pos.y + pos.x;
+        return Grid.GetLength((int)Axis.x) * pos.y + pos.x;
     }
 
     public float GetPixelSize(GameObject pixel)
@@ -137,8 +142,8 @@ public class SimulationHandler : MonoBehaviour
             if(!(
                 targetPos.x + x < 0 || 
                 targetPos.y + y < 0 || 
-                targetPos.x + x >= Grid.GetLength(1) || 
-                targetPos.y + y >= Grid.GetLength(0)
+                targetPos.x + x >= Grid.GetLength((int)Axis.x) || 
+                targetPos.y + y >= Grid.GetLength((int)Axis.y)
                 ))
             {
                 if (!Grid[x, y].properties.SpreadPattern.GoesUp)
@@ -195,20 +200,20 @@ public class SimulationHandler : MonoBehaviour
         #endregion
 
         #region generation loop
-        for (int i = 0; i < Grid.GetLength(0); i++)
+        for (int y = 0; y < Grid.GetLength((int)Axis.y); y++)
         {
-            for (int j = 0; j < Grid.GetLength(1); j++)
+            for (int x = 0; x < Grid.GetLength((int)Axis.x); x++)
             {
-                Grid[i, j] = GenerateData(i,j);
+                Grid[x, y] = GenerateData(x,y);
                 GameObject pixel = Instantiate(pixelPrefab,
                     new Vector3(
-                        i * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x,
-                        -j * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y,
+                        x * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x,
+                        -y * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y,
                         this.transform.position.z),
                     Quaternion.identity, this.gameObject.transform);
                 pixel.transform.localScale = new Vector3(pixelSize / resolution, pixelSize / resolution, pixelSize / resolution);
                 
-                SetPixelData(pixel,i, j);
+                SetPixelData(pixel,x, y);
                 Pixels.Add(pixel);
             }
         }
@@ -216,19 +221,19 @@ public class SimulationHandler : MonoBehaviour
         #endregion
     }
 
-    public PixelData GenerateData(int i, int j)
+    public PixelData GenerateData(int x, int y)
     {
         PixelData pxData = new PixelData();
         #region material selection
-        if (i == 0 || j == 0 || i == gridSize.x - 1 || j == gridSize.y - 1)
+        if (x == 0 || y == 0 || x == gridSize.x - 1 || y == gridSize.y - 1)
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.BoundaryRock);
         }
-        else if (j > groundLevel)
+        else if (y > groundLevel)
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Water);
         }
-        else if (j == gridSize.y - groundLevel)
+        else if (y == gridSize.y - groundLevel)
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
         }
@@ -237,8 +242,8 @@ public class SimulationHandler : MonoBehaviour
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Air);
         }
         #endregion
-        pxData.position = new Vector2Int(i, j);
-        pxData.color = pxData.properties.GetColor(new Vector2Int(i,j));
+        pxData.position = new Vector2Int(x, y);
+        pxData.color = pxData.properties.GetColor(new Vector2Int(x,y));
         return pxData;
     }
 
