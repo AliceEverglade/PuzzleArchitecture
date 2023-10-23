@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  TickSpeed: 5
+  TickSpeed: 40
 --- !u!4 &1551590873
 Transform:
   m_ObjectHideFlags: 0

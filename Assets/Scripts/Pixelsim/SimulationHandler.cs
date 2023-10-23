@@ -62,11 +62,6 @@ public class SimulationHandler : MonoBehaviour
     #region GridUpdate
     private void UpdateHandler()
     {
-        //testing
-        Debug.Log("update grid");
-
-
-        //end of test
         if (frameReady)
         {
             SendToScreen();
@@ -94,7 +89,6 @@ public class SimulationHandler : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Frame done");
         done = true;
         frameReady = true;
         yield return 0;
@@ -128,18 +122,20 @@ public class SimulationHandler : MonoBehaviour
 
     private void FlipPixels(Vector2Int pos1, Vector2Int pos2)
     {
-        PixelData temp = nextFrame[pos1.x, pos1.y];
-        nextFrame[pos1.x, pos1.y] = nextFrame[pos2.x, pos2.y];
+        PixelData temp = Grid[pos1.x, pos1.y];
+        nextFrame[pos1.x, pos1.y] = Grid[pos2.x, pos2.y];
         nextFrame[pos2.x,pos2.y] = temp;
     }
 
     private bool CalculatePixelPhysics(int x, int y)
     {
-        // Debug.Log($"calculate gravity for x: {x}, y: {y}");
-        for(int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++)
+        Vector2Int origin = new Vector2Int(x, y);
+        for(int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++) //might want to randomize order of check
         {
             Vector2Int targetPos = Grid[x, y].properties.SpreadPattern.Pattern[i];
-            if(!(
+            targetPos.y = -targetPos.y;
+            //if not out of bounds
+            if (!(
                 targetPos.x + x < 0 || 
                 targetPos.y + y < 0 || 
                 targetPos.x + x >= Grid.GetLength((int)Axis.x) || 
@@ -148,12 +144,12 @@ public class SimulationHandler : MonoBehaviour
             {
                 if (!Grid[x, y].properties.SpreadPattern.GoesUp)
                 {
-                    if (nextFrame[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Liquid ||
-                        nextFrame[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Gas)
+                    if (Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Liquid ||
+                        Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Gas)
                     {
-                        if (nextFrame[x + targetPos.x, y + targetPos.y].properties.Density < nextFrame[x, y].properties.Density)
+                        if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
                         {
-                            FlipPixels(new Vector2Int(x, y), targetPos);
+                            FlipPixels(origin, origin + targetPos);
                             return true;
                         }
                     }
@@ -175,6 +171,8 @@ public class SimulationHandler : MonoBehaviour
     }
     #endregion
 
+
+    #region Generation code
     [Button]
     public void GenerateGrid()
     {
@@ -237,6 +235,14 @@ public class SimulationHandler : MonoBehaviour
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
         }
+        else if ( 
+            y >= gridSize.y / 2 - 10 && 
+            y <= gridSize.y / 2 + 10 && 
+            x >= gridSize.x / 2 - 10 && 
+            x <= gridSize.x / 2 + 10)
+        {
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
+        }
         else
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Air);
@@ -246,6 +252,10 @@ public class SimulationHandler : MonoBehaviour
         pxData.color = pxData.properties.GetColor(new Vector2Int(x,y));
         return pxData;
     }
+
+    #endregion
+
+    #region Buttons
 
     [Button]
     public void ClearGrid()
@@ -273,6 +283,8 @@ public class SimulationHandler : MonoBehaviour
             Camera.main.ScreenToWorldPoint(boundary[1].transform.position).x);
         Debug.Log((int)(width / (GetPixelSize(pixelPrefab) / 2)) * (int)(height / (GetPixelSize(pixelPrefab) / 2)));
     }
+
+    #endregion
 }
 
 [Serializable]
