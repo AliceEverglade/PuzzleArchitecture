@@ -5,11 +5,35 @@ using EasyButtons;
 
 public class ConnectorSpawner : MonoBehaviour
 {
-    private Bounds bounds = new Bounds();
+    [SerializeField] private Bounds bounds = new Bounds();
     [SerializeField] private GameObject connectorPrefab;
 
+    enum Face
+    {
+        Top,
+        Bottom,
+        Left,
+        Right,
+        Front,
+        Back
+    }
+
+    enum XPosition
+    {
+        Left,
+        Center,
+        Right
+    }
+
+    enum YPosition
+    {
+        Up,
+        Center,
+        Down
+    }
+
     [Button]
-    void SpawnConnector()
+    void SpawnConnector(Face face = Face.Front, XPosition xPosition = XPosition.Center, YPosition yPosition = YPosition.Center)
     {
         GameObject connector = Instantiate(connectorPrefab);
 
@@ -19,19 +43,87 @@ public class ConnectorSpawner : MonoBehaviour
         {
             pieceID = transform.parent.GetComponent<PieceID>().ID;
             connector.transform.parent = gameObject.transform.parent.transform;
-            connector.transform.position = gameObject.transform.position;
         }
+
         else if (transform.CompareTag("PieceContainer"))
         {
             pieceID = GetComponent<PieceID>().ID;
             connector.transform.parent = gameObject.transform;
-            connector.transform.position = bounds.center;
         }
+
+        connector.transform.position = gameObject.transform.position;
+
+        SetConnectorFace(connector, face);
+        SetConnectorPosition(connector, xPosition, yPosition);
 
         connector.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
     }
 
-    int DetermineConnectorID(int pieceID) {
+    void SetConnectorFace(GameObject connector, Face face)
+    {
+        connector.transform.position = gameObject.transform.position;
+        Bounds bounds = gameObject.GetComponent<BoxCollider>().bounds;
+
+        switch (face)
+        {
+            case Face.Top:
+                connector.transform.position += transform.up * bounds.extents.y;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.up);
+                break;
+            case Face.Bottom:
+                connector.transform.position += -transform.up * bounds.extents.y;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.down);
+                break;
+            case Face.Left:
+                connector.transform.position += -transform.right * bounds.extents.z;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.left);
+                break;
+            case Face.Right:
+                connector.transform.position += transform.right * bounds.extents.z;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.right);
+                break;
+            case Face.Front:
+                connector.transform.position += transform.forward * bounds.extents.z;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.forward);
+                break;
+            case Face.Back:
+                connector.transform.position += -transform.forward * bounds.extents.z;
+                //connector.transform.rotation = Quaternion.LookRotation(Vector3.back);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void SetConnectorPosition(GameObject connector, XPosition xPosition, YPosition yPosition)
+    {
+        switch (xPosition)
+        {
+            case XPosition.Left:
+                connector.transform.position += transform.right * -bounds.extents.x;
+                break;
+            case XPosition.Right:
+                connector.transform.position += transform.right * bounds.extents.x;
+                break;
+            default:
+                break;
+        }
+
+        switch (yPosition)
+        {
+            case YPosition.Up:
+                connector.transform.position += transform.up * -bounds.extents.y;
+                break;
+            case YPosition.Down:
+                connector.transform.position += transform.right * bounds.extents.y;
+                break;
+            default:
+                break;
+        }
+    }
+
+    int DetermineConnectorID(int pieceID)
+    {
         bool unnamed = true;
         int currentConnector = 1;
         while (unnamed)
@@ -44,25 +136,5 @@ public class ConnectorSpawner : MonoBehaviour
         }
 
         return currentConnector;
-    }
-
-    [Button]
-    void SetBounds()
-    {
-        foreach (Transform child in transform)
-        {
-            if (!child.CompareTag("ConnectionPoint"))
-            {
-                bounds.Encapsulate(child.GetComponent<Collider>().bounds);
-            }
-        }
-
-        GetComponent<BoxCollider>().bounds.Encapsulate(bounds);
-        Debug.Log(GetComponent<Collider>().bounds);
-
-        GetComponent<BoxCollider>().size = bounds.size;
-        GetComponent<BoxCollider>().center = bounds.center;
-
-        Debug.Log(bounds);
     }
 }
