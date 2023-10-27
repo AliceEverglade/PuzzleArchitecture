@@ -130,9 +130,27 @@ public class SimulationHandler : MonoBehaviour
     private bool CalculatePixelPhysics(int x, int y)
     {
         Vector2Int origin = new Vector2Int(x, y);
+        List<int> checkedIndexes = new List<int>();
+        int currentIndex;
         for(int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++) //might want to randomize order of check
         {
-            Vector2Int targetPos = Grid[x, y].properties.SpreadPattern.Pattern[i];
+            if (checkedIndexes.Count == Grid[x, y].properties.SpreadPattern.Pattern.Count) return false;
+            do
+            {
+                if(i == 0)
+                {
+                    currentIndex = 0;
+                }
+                else
+                {
+                    //swap out between random and in order by commenting out one or the other
+                    //currentIndex = UnityEngine.Random.Range(0, Grid[x, y].properties.SpreadPattern.Pattern.Count);
+                    currentIndex = i;
+                }
+            }
+            while (checkedIndexes.Contains(currentIndex));
+            checkedIndexes.Add(currentIndex);
+            Vector2Int targetPos = Grid[x, y].properties.SpreadPattern.Pattern[currentIndex];
             targetPos.y = -targetPos.y;
             //if not out of bounds
             if (!(
@@ -147,10 +165,32 @@ public class SimulationHandler : MonoBehaviour
                     if (Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Liquid ||
                         Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Gas)
                     {
-                        if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
+                        switch (Grid[x + targetPos.x, y + targetPos.y].properties.State)
                         {
-                            FlipPixels(origin, origin + targetPos);
-                            return true;
+                            //physics interactions
+                            case MaterialProperties.MatterState.Granular:
+                            case MaterialProperties.MatterState.Liquid:
+                            case MaterialProperties.MatterState.Gas:
+                                if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
+                                {
+                                    FlipPixels(origin, origin + targetPos);
+                                    return true;
+                                }
+                                break;
+                            case MaterialProperties.MatterState.Solid:
+                                if (!(
+                                    Grid[x + 1, y].properties == Grid[x,y].properties ||
+                                    Grid[x -1, y].properties == Grid[x, y].properties ||
+                                    Grid[x, y + 1].properties == Grid[x, y].properties ||
+                                    Grid[x, y - 1].properties == Grid[x, y].properties))
+                                {
+                                    if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
+                                    {
+                                        FlipPixels(origin, origin + targetPos);
+                                        return true;
+                                    }
+                                }
+                                    break;
                         }
                     }
                 }
@@ -170,7 +210,6 @@ public class SimulationHandler : MonoBehaviour
         pixel.GetComponent<PixelDataHolder>().data = Grid[x, y];
     }
     #endregion
-
 
     #region Generation code
     [Button]
@@ -235,13 +274,13 @@ public class SimulationHandler : MonoBehaviour
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
         }
-        else if ( 
+        else if (
             y >= gridSize.y / 2 - 10 && 
             y <= gridSize.y / 2 + 10 && 
             x >= gridSize.x / 2 - 10 && 
             x <= gridSize.x / 2 + 10)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Brick);
         }
         else
         {
@@ -296,4 +335,7 @@ public class PixelData
 
     [Range(0,1)]
     public float Hydration;
+
+    [Range(0, 1)]
+    public float ReactionProgress;
 }
