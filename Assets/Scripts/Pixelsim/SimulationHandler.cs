@@ -25,6 +25,7 @@ public class SimulationHandler : MonoBehaviour
     [Header("tick settings")]
     [SerializeField] private bool frameReady = false;
     [SerializeField] private bool done = true;
+    [SerializeField] private bool RandomizeSpreadPattern;
     private bool readyForUpdate => done && !frameReady;
 
     public enum Axis
@@ -101,7 +102,7 @@ public class SimulationHandler : MonoBehaviour
         {
             for (int x = 0; x < Grid.GetLength((int)Axis.x); x++)
             {
-                Pixels[GridPosToIndex(new Vector2Int(x, y))].GetComponent<MaterialInstance>().BaseColor = Grid[x, y].color;
+                SetPixelData(Pixels[GridPosToIndex(new Vector2Int(x, y))], x, y);
             }
         }
 
@@ -143,9 +144,7 @@ public class SimulationHandler : MonoBehaviour
                 }
                 else
                 {
-                    //swap out between random and in order by commenting out one or the other
-                    //currentIndex = UnityEngine.Random.Range(0, Grid[x, y].properties.SpreadPattern.Pattern.Count);
-                    currentIndex = i;
+                    currentIndex = RandomizeSpreadPattern ? UnityEngine.Random.Range(0, Grid[x, y].properties.SpreadPattern.Pattern.Count) : i;
                 }
             }
             while (checkedIndexes.Contains(currentIndex));
@@ -280,7 +279,7 @@ public class SimulationHandler : MonoBehaviour
             x >= gridSize.x / 2 - 10 && 
             x <= gridSize.x / 2 + 10)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Brick);
+            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
         }
         else
         {

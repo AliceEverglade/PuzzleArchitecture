@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 96405781813019924}
   m_Layer: 0
   m_Name: Pixel
-  m_TagString: Untagged
+  m_TagString: Pixel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,3 +141,4 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     Hydration: 0
+    ReactionProgress: 0

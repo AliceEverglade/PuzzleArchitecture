@@ -7,6 +7,7 @@ TagManager:
   - ConnectionPoint
   - ConnectUI
   - PieceContainer
+  - Pixel
   layers:
   - Default
   - TransparentFX
