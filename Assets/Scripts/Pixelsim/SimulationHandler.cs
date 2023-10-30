@@ -20,6 +20,7 @@ public class SimulationHandler : MonoBehaviour
     private float height;
     private float groundLevel => gridSize.y - (gridSize.y / 3);
 
+    [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject[] boundary = new GameObject[2];
 
     [Header("tick settings")]
@@ -133,12 +134,12 @@ public class SimulationHandler : MonoBehaviour
         Vector2Int origin = new Vector2Int(x, y);
         List<int> checkedIndexes = new List<int>();
         int currentIndex;
-        for(int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++) //might want to randomize order of check
+        for (int i = 0; i < Grid[x, y].properties.SpreadPattern.Pattern.Count; i++)
         {
             if (checkedIndexes.Count == Grid[x, y].properties.SpreadPattern.Pattern.Count) return false;
             do
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     currentIndex = 0;
                 }
@@ -153,9 +154,9 @@ public class SimulationHandler : MonoBehaviour
             targetPos.y = -targetPos.y;
             //if not out of bounds
             if (!(
-                targetPos.x + x < 0 || 
-                targetPos.y + y < 0 || 
-                targetPos.x + x >= Grid.GetLength((int)Axis.x) || 
+                targetPos.x + x < 0 ||
+                targetPos.y + y < 0 ||
+                targetPos.x + x >= Grid.GetLength((int)Axis.x) ||
                 targetPos.y + y >= Grid.GetLength((int)Axis.y)
                 ))
             {
@@ -178,8 +179,8 @@ public class SimulationHandler : MonoBehaviour
                                 break;
                             case MaterialProperties.MatterState.Solid:
                                 if (!(
-                                    Grid[x + 1, y].properties == Grid[x,y].properties ||
-                                    Grid[x -1, y].properties == Grid[x, y].properties ||
+                                    Grid[x + 1, y].properties == Grid[x, y].properties ||
+                                    Grid[x - 1, y].properties == Grid[x, y].properties ||
                                     Grid[x, y + 1].properties == Grid[x, y].properties ||
                                     Grid[x, y - 1].properties == Grid[x, y].properties))
                                 {
@@ -189,7 +190,7 @@ public class SimulationHandler : MonoBehaviour
                                         return true;
                                     }
                                 }
-                                    break;
+                                break;
                         }
                     }
                 }
@@ -268,6 +269,7 @@ public class SimulationHandler : MonoBehaviour
         else if (y > groundLevel)
         {
             pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Water);
+            pxData.Hydration = 1;
         }
         else if (y == gridSize.y - groundLevel)
         {

@@ -8,22 +8,25 @@ using static UnityEditor.PlayerSettings;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private SimulationHandler simHandler;
-    [SerializeField] private float brushSize;
 
     [SerializeField] private GameObject mouseUI;
     [SerializeField] private Vector3 mouseUIOffset;
     private TMP_Text mouseUIText;
 
-    [SerializeField] private List<GameObject> brushHits;
+    [SerializeField] private BrushShapes brushShape;
+    [SerializeField] private float brushSize;
+    public List<GameObject> brushHits;
     private Vector3 mousedObjectPos;
+
+    [Header("UI")]
+    [SerializeField] private List<PixelData> presets;
+    [SerializeField] private PixelData selectedData;
 
     public enum BrushShapes
     {
         Circle,
         Square
     }
-
-    public BrushShapes brushShape;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,16 +49,30 @@ public class PlayerManager : MonoBehaviour
                     $"<b>{data.properties.MaterialName}</b> ({data.position.x},{data.position.y})\n" +
                     $"Hydration: {data.Hydration * 100}% \n";
                 mouseUIText.text += data.ReactionProgress > 0 ? $"Reaction Progress: {data.ReactionProgress * 100}%" : $"";
+                CheckBrushHits(mousedObjectPos);
             }
         }
         else
         {
             mouseUI.SetActive(false);
+            brushHits = new List<GameObject>();
+        }
+        foreach (GameObject pixel in simHandler.Pixels)
+        {
+            if (!brushHits.Contains(pixel))
+            {
+                pixel.GetComponent<MaterialInstance>().Selected = false;
+            }
+            else
+            {
+                pixel.GetComponent<MaterialInstance>().Selected = true;
+            }
         }
     }
 
     void CheckBrushHits(Vector3 pos)
     {
+        brushHits = new List<GameObject>();
         Collider[] hits = null;
         switch (brushShape)
         {
@@ -68,7 +85,6 @@ public class PlayerManager : MonoBehaviour
         }
         foreach (Collider hit in hits)
         {
-            hit.gameObject.GetComponent<MaterialInstance>().Selected = true;
             brushHits.Add(hit.gameObject);
         }
     }

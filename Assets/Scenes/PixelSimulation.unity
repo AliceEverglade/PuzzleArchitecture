@@ -691,9 +691,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simHandler: {fileID: 1144808110}
-  brushSize: 0
   mouseUI: {fileID: 124406933}
   mouseUIOffset: {x: 235, y: 90, z: 0}
+  brushSize: 1
   brushHits: []
   brushShape: 0
 --- !u!1 &1144808108
@@ -751,6 +751,7 @@ MonoBehaviour:
     type: 3}
   pixelSize: 0.3
   resolution: 2.5
+  playerManager: {fileID: 986584880}
   boundary:
   - {fileID: 1785108967}
   - {fileID: 677777248}
