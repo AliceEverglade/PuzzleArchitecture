@@ -13,17 +13,59 @@ MonoBehaviour:
   m_Name: MaterialLibrary
   m_EditorClassIdentifier: 
   Materials:
-  - key: 0
-    Value: {fileID: 11400000, guid: 180d37f4fd1237a4c9b97483016306e6, type: 2}
-  - key: 1
-    Value: {fileID: 11400000, guid: 0ac846ec37e967f44b53ea805c8fd20e, type: 2}
-  - key: 2
-    Value: {fileID: 11400000, guid: 4fae804c2cf32dd4fba6397f11dcbdfc, type: 2}
-  - key: 3
-    Value: {fileID: 11400000, guid: 35566efe9c76a22448cea45922b5dbc1, type: 2}
-  - key: 4
-    Value: {fileID: 11400000, guid: ea31c426aa2b7ae44b57fd7ad1364d87, type: 2}
-  - key: 5
-    Value: {fileID: 11400000, guid: a1627ce724d577e4fb6b353e88304a6b, type: 2}
-  - key: 6
-    Value: {fileID: 11400000, guid: a99cf6ecb09817b44b166d16f0543dea, type: 2}
+  - name: Air
+    key: 0
+    Value:
+      properties: {fileID: 11400000, guid: 180d37f4fd1237a4c9b97483016306e6, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 1}
+      Hydration: 0
+      ReactionProgress: 0
+  - name: Water
+    key: 1
+    Value:
+      properties: {fileID: 11400000, guid: 0ac846ec37e967f44b53ea805c8fd20e, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 1}
+      Hydration: 1
+      ReactionProgress: 0
+  - name: Sand
+    key: 2
+    Value:
+      properties: {fileID: 11400000, guid: 4fae804c2cf32dd4fba6397f11dcbdfc, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 1}
+      Hydration: 0
+      ReactionProgress: 0
+  - name: Brick
+    key: 3
+    Value:
+      properties: {fileID: 11400000, guid: 35566efe9c76a22448cea45922b5dbc1, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 0}
+      Hydration: 0
+      ReactionProgress: 0
+  - name: Dirt
+    key: 4
+    Value:
+      properties: {fileID: 11400000, guid: ea31c426aa2b7ae44b57fd7ad1364d87, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 0}
+      Hydration: 0
+      ReactionProgress: 0
+  - name: Concrete
+    key: 5
+    Value:
+      properties: {fileID: 11400000, guid: a1627ce724d577e4fb6b353e88304a6b, type: 2}
+      position: {x: 0, y: 0}
+      color: {r: 0, g: 0, b: 0, a: 0}
+      Hydration: 0
+      ReactionProgress: 0.14
+  - name: BoundaryRock
+    key: 6
+    Value:
+      properties: {fileID: 11400000, guid: a99cf6ecb09817b44b166d16f0543dea, type: 2}
+      position: {x: 100, y: 82}
+      color: {r: 0, g: 0, b: 0, a: 1}
+      Hydration: 0
+      ReactionProgress: 0

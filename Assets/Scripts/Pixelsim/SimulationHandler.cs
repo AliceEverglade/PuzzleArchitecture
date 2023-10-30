@@ -12,7 +12,7 @@ public class SimulationHandler : MonoBehaviour
     private PixelData[,] nextFrame;
     public List<GameObject> Pixels;
     [SerializeField] private MaterialLibrary library;
-    [SerializeField] private GameObject pixelPrefab;
+    public GameObject PixelPrefab;
     [SerializeField] private float pixelSize;
     [SerializeField] private float resolution;
     private Vector2Int gridSize;
@@ -204,7 +204,7 @@ public class SimulationHandler : MonoBehaviour
 
     }
 
-    private void SetPixelData(GameObject pixel,int x, int y)
+    public void SetPixelData(GameObject pixel,int x, int y)
     {
         pixel.GetComponent<MaterialInstance>().BaseColor = Grid[x, y].color;
         pixel.GetComponent<PixelDataHolder>().data = Grid[x, y];
@@ -230,8 +230,8 @@ public class SimulationHandler : MonoBehaviour
                 boundary[0].transform.position.y, 
                 Camera.main.nearClipPlane));
 
-        gridSize.x = (int)(Mathf.Floor(width / (GetPixelSize(pixelPrefab))));
-        gridSize.y = (int)(Mathf.Floor(height / (GetPixelSize(pixelPrefab))));
+        gridSize.x = (int)(Mathf.Floor(width / (GetPixelSize(PixelPrefab))));
+        gridSize.y = (int)(Mathf.Floor(height / (GetPixelSize(PixelPrefab))));
         Debug.Log($"grid is of size x: {gridSize.x} by y: {gridSize.y} for a total of {gridSize.x * gridSize.y} cells.");
         Grid = new PixelData[gridSize.x,gridSize.y];
         #endregion
@@ -242,10 +242,10 @@ public class SimulationHandler : MonoBehaviour
             for (int x = 0; x < Grid.GetLength((int)Axis.x); x++)
             {
                 Grid[x, y] = GenerateData(x,y);
-                GameObject pixel = Instantiate(pixelPrefab,
+                GameObject pixel = Instantiate(PixelPrefab,
                     new Vector3(
-                        x * GetPixelSize(pixelPrefab) + (GetPixelSize(pixelPrefab) / 2) + start.x,
-                        -y * GetPixelSize(pixelPrefab) - (GetPixelSize(pixelPrefab) / 2) + start.y,
+                        x * GetPixelSize(PixelPrefab) + (GetPixelSize(PixelPrefab) / 2) + start.x,
+                        -y * GetPixelSize(PixelPrefab) - (GetPixelSize(PixelPrefab) / 2) + start.y,
                         this.transform.position.z),
                     Quaternion.identity, this.gameObject.transform);
                 pixel.transform.localScale = new Vector3(pixelSize / resolution, pixelSize / resolution, pixelSize / resolution);
@@ -260,20 +260,19 @@ public class SimulationHandler : MonoBehaviour
 
     public PixelData GenerateData(int x, int y)
     {
-        PixelData pxData = new PixelData();
+        PixelData pxData = null;
         #region material selection
         if (x == 0 || y == 0 || x == gridSize.x - 1 || y == gridSize.y - 1)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.BoundaryRock);
+            pxData = new PixelData(library.GetProperty(MaterialLibrary.MaterialNames.BoundaryRock));
         }
         else if (y > groundLevel)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Water);
-            pxData.Hydration = 1;
+            pxData = new PixelData(library.GetProperty(MaterialLibrary.MaterialNames.Water));
         }
         else if (y == gridSize.y - groundLevel)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
+            pxData = new PixelData(library.GetProperty(MaterialLibrary.MaterialNames.Sand));
         }
         else if (
             y >= gridSize.y / 2 - 10 && 
@@ -281,11 +280,11 @@ public class SimulationHandler : MonoBehaviour
             x >= gridSize.x / 2 - 10 && 
             x <= gridSize.x / 2 + 10)
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Sand);
+            pxData = new PixelData(library.GetProperty(MaterialLibrary.MaterialNames.Sand));
         }
         else
         {
-            pxData.properties = library.GetProperty(MaterialLibrary.MaterialNames.Air);
+            pxData = new PixelData(library.GetProperty(MaterialLibrary.MaterialNames.Air));
         }
         #endregion
         pxData.position = new Vector2Int(x, y);
@@ -321,7 +320,7 @@ public class SimulationHandler : MonoBehaviour
         width = MathF.Abs(
             Camera.main.ScreenToWorldPoint(boundary[0].transform.position).x -
             Camera.main.ScreenToWorldPoint(boundary[1].transform.position).x);
-        Debug.Log((int)(width / (GetPixelSize(pixelPrefab) / 2)) * (int)(height / (GetPixelSize(pixelPrefab) / 2)));
+        Debug.Log((int)(width / (GetPixelSize(PixelPrefab) / 2)) * (int)(height / (GetPixelSize(PixelPrefab) / 2)));
     }
 
     #endregion
@@ -339,4 +338,12 @@ public class PixelData
 
     [Range(0, 1)]
     public float ReactionProgress;
+
+    public PixelData(PixelData data)
+    {
+        properties = data.properties;
+        color = data.color;
+        Hydration = data.Hydration; 
+        ReactionProgress = data.ReactionProgress;
+    }
 }

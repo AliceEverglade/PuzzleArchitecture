@@ -8,19 +8,22 @@ using static UnityEditor.PlayerSettings;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private SimulationHandler simHandler;
+    [SerializeField] private MaterialLibrary library;
 
     [SerializeField] private GameObject mouseUI;
     [SerializeField] private Vector3 mouseUIOffset;
     private TMP_Text mouseUIText;
 
     [SerializeField] private BrushShapes brushShape;
-    [SerializeField] private float brushSize;
+    private float brushSize => (inputBrushSize) * (simHandler.GetPixelSize(simHandler.PixelPrefab) / 2);
+    [SerializeField] private float inputBrushSize;
     public List<GameObject> brushHits;
     private Vector3 mousedObjectPos;
 
     [Header("UI")]
-    [SerializeField] private List<PixelData> presets;
-    [SerializeField] private PixelData selectedData;
+    [SerializeField] private int selectedIndex;
+    [SerializeField] private PixelData selectedData =>  new PixelData(library.Materials[selectedIndex].Value);
+    [SerializeField] private PixelData eraserData =>  new PixelData(library.Materials[0].Value);
 
     public enum BrushShapes
     {
@@ -36,6 +39,36 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Selection();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            foreach (GameObject pixel in brushHits)
+            {
+                SetPixel(pixel, selectedData);
+            }
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+            foreach(GameObject pixel in brushHits)
+            {
+                //set pixeldata and grid stuff
+                SetPixel(pixel, eraserData);
+            }
+        }
+    }
+
+    void SetPixel(GameObject pixel,PixelData data)
+    {
+        Vector2Int pos = pixel.GetComponent<PixelDataHolder>().data.position;
+        simHandler.Grid[pos.x, pos.y] = data;
+        simHandler.Grid[pos.x, pos.y].position = pos;
+        simHandler.Grid[pos.x, pos.y].color = simHandler.Grid[pos.x, pos.y].properties.GetColor(pos);
+        simHandler.SetPixelData(pixel, pos.x, pos.y);
+    }
+
+    void Selection()
+    {
         mouseUI.transform.position = Input.mousePosition + mouseUIOffset;
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.forward, out hit))
@@ -49,7 +82,15 @@ public class PlayerManager : MonoBehaviour
                     $"<b>{data.properties.MaterialName}</b> ({data.position.x},{data.position.y})\n" +
                     $"Hydration: {data.Hydration * 100}% \n";
                 mouseUIText.text += data.ReactionProgress > 0 ? $"Reaction Progress: {data.ReactionProgress * 100}%" : $"";
-                CheckBrushHits(mousedObjectPos);
+                if (inputBrushSize > 1)
+                {
+                    CheckBrushHits(mousedObjectPos);
+                }
+                else
+                {
+                    brushHits = new List<GameObject>();
+                    brushHits.Add(hit.collider.gameObject);
+                }
             }
         }
         else

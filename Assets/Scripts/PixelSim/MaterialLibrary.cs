@@ -1,3 +1,4 @@
+using EasyButtons;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class MaterialLibrary : ScriptableObject
         BoundaryRock
     }
 
-    public MaterialProperties GetProperty(MaterialNames key)
+    public PixelData GetProperty(MaterialNames key)
     {
         foreach (MaterialData data in Materials)
         {
@@ -30,11 +31,21 @@ public class MaterialLibrary : ScriptableObject
         }
         return null;
     }
+
+    [Button]
+    private void SetNames()
+    {
+        foreach(MaterialData data in Materials)
+        {
+            data.name = data.key.ToString();
+        }
+    }
 }
 
 [Serializable]
 public class MaterialData
 {
+    [HideInInspector] public string name;
     public MaterialLibrary.MaterialNames key;
-    public MaterialProperties Value;
+    public PixelData Value;
 }
