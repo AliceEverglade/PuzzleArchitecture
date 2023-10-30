@@ -77,6 +77,7 @@ public class PieceSpawner : MonoBehaviour
     void SetBounds(GameObject piece)
     {
         Bounds bounds = new Bounds();
+        bounds.center = piece.transform.position;
 
         if (!piece.gameObject.CompareTag("PieceContainer")) return;
 
