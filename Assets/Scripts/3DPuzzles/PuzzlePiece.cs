@@ -28,7 +28,7 @@ public class PuzzlePiece : MonoBehaviour
 
     private void Update()
     {
-        SetMaterial();
+        //SetMaterial();
         CheckMouseClick();
         Disconnect();
     }
@@ -47,12 +47,14 @@ public class PuzzlePiece : MonoBehaviour
 
     private void CheckMouseClick()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(ray, transform.forward, Camera.main.farClipPlane);
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(ray, out hit))
+            foreach (RaycastHit hit in hits)
             {
                 if (hit.transform.gameObject == this.gameObject)
                 {
@@ -60,18 +62,13 @@ public class PuzzlePiece : MonoBehaviour
                     selected = true;
 
                     connectionManager.CheckedConnectors.Clear();
-                    
+
                     for (int i = 0; i < connectionPoints.Count; i++)
                     {
                         connectionManager.ChangeMainPiece(gameObject.transform.GetChild(i).gameObject);
                     }
                 }
                 else { selected = false; }
-            }
-            
-            else
-            {
-                selected = false;
             }
         }
     }

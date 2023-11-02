@@ -8,6 +8,7 @@ TagManager:
   - ConnectUI
   - PieceContainer
   - Pixel
+  - SubPiece
   layers:
   - Default
   - TransparentFX

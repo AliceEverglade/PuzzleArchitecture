@@ -99,12 +99,10 @@ public class ConnectionManager : MonoBehaviour
 
         if (correctConnections == FinalConnections.Count)
         {
-            Debug.Log("Hell yeah now we've got Business!!!");
             WinOrLose?.Invoke(true, "WinOrNoWinUI", "Congratulations, you have completed the puzzle!", new Vector4(0.06f, 0.85f, 0.39f, 1f));
         }
         else
         {
-            Debug.Log("FVCK.");
             WinOrLose?.Invoke(true, "WinOrNoWinUI", "There seems to be a mistake!", new Vector4(0.85f, 0.06f, 0.26f, 1f));
         }
 

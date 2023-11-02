@@ -27,7 +27,7 @@ public class PieceDrag : MonoBehaviour
 
     private void getMouseOffset() {
         mouseZ = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-        mouseOffset = gameObject.transform.position - GetMouseWorldPosition();
+        mouseOffset = transform.parent.gameObject.transform.position - GetMouseWorldPosition();
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -47,7 +47,7 @@ public class PieceDrag : MonoBehaviour
         
         if (!snapped)
         {
-            transform.position = GetMouseWorldPosition() + mouseOffset;
+            transform.parent.gameObject.transform.position = GetMouseWorldPosition() + mouseOffset;
         }
     }
 
