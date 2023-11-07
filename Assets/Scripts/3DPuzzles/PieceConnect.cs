@@ -30,10 +30,10 @@ public class PieceConnect : MonoBehaviour
                 connectedConnector = otherPiece.gameObject;
                 otherPiece.GetComponent<PieceConnect>().connectedConnector = gameObject;
 
-                if (gameObject.transform.parent.GetComponent<PuzzlePiece>().selected)
-                {
+                //if (gameObject.transform.parent.GetComponent<PuzzlePiece>().selected)
+                //{
                     connectionManager.ChangeMainPiece(gameObject);
-                }
+                //}
 
                 ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
             }
