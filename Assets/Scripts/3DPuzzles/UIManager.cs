@@ -6,7 +6,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
+    [SerializeField] Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
 
     public static event Action<bool> OnUIChange;
 
@@ -35,11 +35,11 @@ public class UIManager : MonoBehaviour
 
     public void ConnectUI(bool toggle, string key, string text, Color? color)
     {
-        //UIElements[key].SetActive(toggle);
-        //if (text != null)
-        //{
-        //    ChangeText(UIElements[key], text, color);
-        //}
+        /*UIElements[key].SetActive(toggle);
+        if (text != null)
+        {
+            ChangeText(UIElements[key], text, color);
+        }*/
     }
 
     public void ChangeText(GameObject textObject, string text, Color? color)

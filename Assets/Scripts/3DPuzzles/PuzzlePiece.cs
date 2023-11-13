@@ -8,34 +8,40 @@ public class PuzzlePiece : MonoBehaviour
     [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private ConnectionSO connectionSO;
 
-    public bool selected = false;
-    [SerializeField] private Material selectMaterial;
-    [SerializeField] private Material deselectMaterial;
+    [SerializeField] public Material selectMaterial;
+    [SerializeField] public Material deselectMaterial;
+    
+    [SerializeField] private GameObject MainPiece;
+    [SerializeField] private Selected selected;
 
     // Start is called before the first frame update
     void Start()
     {
+        MainPiece = transform.parent.gameObject;
+        selected = MainPiece.GetComponent<Selected>();
         connectionManager = FindObjectOfType<ConnectionManager>();
 
-        foreach (Transform child in transform)
+        foreach (Transform child in MainPiece.transform)
         {
             if (child.gameObject.CompareTag("ConnectionPoint"))
             {
                 connectionPoints.Add(child.gameObject);
             }
         }
+
+        deselectMaterial = gameObject.GetComponent<MeshRenderer>().material;
     }
 
     private void Update()
     {
-        //SetMaterial();
+        SetMaterial();
         CheckMouseClick();
         Disconnect();
     }
 
     private void SetMaterial()
     {
-        if (selected)
+        if (selected.isSelected)
         {
             gameObject.GetComponent<MeshRenderer>().material = selectMaterial;
         }
@@ -49,27 +55,28 @@ public class PuzzlePiece : MonoBehaviour
     {
         Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(ray, transform.forward, Camera.main.farClipPlane);
+        RaycastHit hit;
 
         if (Input.GetMouseButtonDown(0))
         {
-            foreach (RaycastHit hit in hits)
+            if (Physics.Raycast(ray, Camera.main.transform.forward, out hit))
             {
                 if (hit.transform.gameObject == this.gameObject)
                 {
-                    Debug.Log("hit");
-                    selected = true;
+                    Debug.Log(hit);
+                    selected.isSelected = true;
 
                     connectionManager.CheckedConnectors.Clear();
 
                     for (int i = 0; i < connectionPoints.Count; i++)
                     {
-                        connectionManager.ChangeMainPiece(gameObject.transform.GetChild(i).gameObject);
+                        connectionManager.ChangeMainPiece(gameObject.transform.parent.Find(connectionPoints[i].name).gameObject);
                     }
                 }
-                else { selected = false; }
+                else { selected.isSelected = false; }
             }
+
+            else { selected.isSelected = false; }
         }
     }
 
