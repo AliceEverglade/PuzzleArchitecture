@@ -5,7 +5,6 @@ using UnityEngine;
 public class PieceHandler : MonoBehaviour
 {
     [SerializeField] private ConnectionManager connectionManager;
-    [SerializeField] private ConnectionSO connectionSO;
     [SerializeField] private PieceData pieceData;
     public bool Selected = false;
 
@@ -21,7 +20,6 @@ public class PieceHandler : MonoBehaviour
     {
         SetMaterial();
         CheckMouseClick();
-        Disconnect();
     }
 
     private void SetMaterial()
@@ -46,38 +44,19 @@ public class PieceHandler : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log(hit.transform.gameObject);
-
                 if (pieceData.SubElements.Contains(hit.transform.gameObject))
                 {
+                    connectionManager.CheckedConnectors.Clear();
+                    connectionManager.PiecesToCheck.Clear();
+
+                    connectionManager.ChangeMainPiece(this.gameObject);
+
                     Selected = true;
                 }
                 else { Selected = false; }
             }
 
             else { Selected = false; }
-        }
-    }
-
-    private void Disconnect()
-    {
-        if (Input.GetKeyDown(KeyCode.G) && Selected)
-        {
-
-            foreach (GameObject connector in pieceData.Connectors)
-            {
-                Debug.Log("lol");
-                
-                GameObject secondConnector = connector.GetComponent<PieceConnect>().connectedConnector;
-
-                connectionSO.Disconnect(connector, secondConnector);
-
-                if (connector.GetComponent<PieceConnect>().connectedConnector != null)
-                {
-                    secondConnector.GetComponent<PieceConnect>().connectedConnector = null;
-                    connector.GetComponent<PieceConnect>().connectedConnector = null;
-                }
-            }
         }
     }
 }

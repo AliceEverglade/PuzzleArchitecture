@@ -7,6 +7,7 @@ public class ConnectionManager : MonoBehaviour
 {
     public List<Connection> Connections;
     public List<GameObject> CheckedConnectors;
+    public List<GameObject> PiecesToCheck;
     public List<Connection> FinalConnections;
     public bool WinLose = false;
 
@@ -65,7 +66,7 @@ public class ConnectionManager : MonoBehaviour
     private void AddConnection(Connection c)
     {
         Connections.Add(c);
-        ChangeMainPiece(c.Connection2);
+        ChangeMainPiece(c.Connection2.transform.parent.gameObject);
     }
 
     private void RemoveConnection(Connection c)
@@ -111,36 +112,57 @@ public class ConnectionManager : MonoBehaviour
 
     public void ChangeMainPiece(GameObject piece)
     {
-        Debug.Log(piece.name);
-        
-        foreach (Connection connection in Connections)
+        List<GameObject> currentConnectors;
+        PiecesToCheck.Add(piece);
+
+        for (int i = 0; i < PiecesToCheck.Count; i++)
         {
-            if (connection.CheckConnection(piece) && !CheckedConnectors.Contains(piece))
+            currentConnectors = PiecesToCheck[i].GetComponent<PieceData>().Connectors;
+
+            foreach (GameObject connector in currentConnectors)
             {
-                CheckedConnectors.Add(connection.Connection1);
-                CheckedConnectors.Add(connection.Connection2);
+                Debug.Log(connector);
 
-                // if the main piece is the first connection and the second connection is the piece
-                if (connection.Connection1Main && connection.Connection2 == piece)
+                foreach (Connection connection in Connections)
                 {
-                    connection.Connection1Main = false;
+                    if (connection.CheckConnection(connector) && !CheckedConnectors.Contains(connector))
+                    {
+                        Debug.Log("test");
 
-                    Transform otherPiece = connection.Connection1.transform.parent;
+                        CheckedConnectors.Add(connection.Connection1);
+                        CheckedConnectors.Add(connection.Connection2);
 
-                    CheckConnectedPiece(otherPiece, connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
-                }
+                        // if the main piece is the first connection and the second connection is the piece
+                        if (connection.Connection1Main && connection.Connection2 == connector)
+                        {
+                            connection.Connection1Main = false;
+                            Debug.Log(connector.name + " is now the main piece or smth");
 
-                // if the main piece is the second connection and the first connection is the piece
-                else if (!connection.Connection1Main && connection.Connection1 == piece)
-                {
-                    connection.Connection1Main = true;
+                            Transform otherPiece = connection.Connection1.transform.parent;
+                            PiecesToCheck.Add(otherPiece.gameObject);
 
-                    Transform otherPiece = connection.Connection2.transform.parent;
+                            CheckConnectedPiece(otherPiece, connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
+                        }
 
-                    CheckConnectedPiece(otherPiece, !connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
+                        // if the main piece is the second connection and the first connection is the piece
+                        else if (!connection.Connection1Main && connection.Connection1 == connector)
+                        {
+                            connection.Connection1Main = true;
+                            Debug.Log(connector.name + " is now the main piece or smth");
+
+                            Transform otherPiece = connection.Connection2.transform.parent;
+                            PiecesToCheck.Add(otherPiece.gameObject);
+
+                            CheckConnectedPiece(otherPiece, !connection.Connection1Main ? connection.GetMain() : connection.GetSecond());
+                        }
+                    }
                 }
             }
         }
+        
+       
+
+
     }
     
     public void CheckConnectedPiece(Transform piece, GameObject targetPiece)
@@ -149,8 +171,8 @@ public class ConnectionManager : MonoBehaviour
         {
             if (piece.GetChild(i).gameObject != targetPiece && piece.GetChild(i).CompareTag("ConnectionPoint"))
             {
-                Debug.Log(piece.GetChild(i).name + "is now the main piece or smth");
-                ChangeMainPiece(piece.GetChild(i).gameObject);
+                Debug.Log(piece.GetChild(i).name + " is now the main piece or smth");
+                //ChangeMainPiece(piece.gameObject);
             }
         }
     }
