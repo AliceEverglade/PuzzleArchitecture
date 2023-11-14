@@ -63,7 +63,7 @@ public class PieceSpawner : MonoBehaviour
             if (GameObject.Find("Piece" + currentPiece) == null)
             {
                 newPiece.name = "Piece" + currentPiece;
-                newPiece.GetComponent<PieceID>().ID = currentPiece;
+                newPiece.GetComponent<PieceData>().ID = currentPiece;
                 unnamed = false;
             }
             else { currentPiece++; }

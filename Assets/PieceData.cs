@@ -7,7 +7,7 @@ public class PieceData : MonoBehaviour
     public List<GameObject> SubElements;
     public List<GameObject> Connectors;
     public bool Selected => GetComponent<PieceHandler>().Selected;
-    public int PieceID;
+    public int ID;
 
     // Start is called before the first frame update
     void Start()
