@@ -3,7 +3,11 @@ guid: b564d9b654ceeed42bf24752b93c7f7d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - library: {fileID: 11400000, guid: 4cd54ea3931c0964393eeca62ee4c9a0, type: 2}
+  - PixelPrefab: {fileID: 3507525344735838481, guid: 304a3ac28e5bf704aba47b6ed6c3c540,
+      type: 3}
+  - playerManager: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

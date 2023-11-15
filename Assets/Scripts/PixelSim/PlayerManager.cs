@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.Mathematics;
-using static UnityEditor.PlayerSettings;
+using EasyButtons;
 
+
+/// <summary>
+/// the player controller that handles the brushes, tools and material selection.
+/// </summary>
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private SimulationHandler simHandler;
@@ -20,10 +23,21 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> brushHits;
     private Vector3 mousedObjectPos;
 
+
+    public enum Tool
+    {
+        Place,
+        Compact,
+        Agitate
+    }
     [Header("UI")]
-    [SerializeField] private int selectedIndex;
-    [SerializeField] private PixelData selectedData =>  new PixelData(library.Materials[selectedIndex].Value);
-    [SerializeField] private PixelData eraserData =>  new PixelData(library.Materials[0].Value);
+    [SerializeField] private Tool selectedTool;
+    [SerializeField] private MaterialData selectedData;
+    [SerializeField] private PixelData eraserData;
+    [SerializeField] private List<MaterialData> placeableMaterialList;
+    [SerializeField] private GameObject materialUIElement;
+    [SerializeField] private GameObject materialUI;
+    [SerializeField] private List<GameObject> materialUIList;
 
     public enum BrushShapes
     {
@@ -34,6 +48,39 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         mouseUIText = mouseUI.GetComponent<TMP_Text>();
+        InstantiateUI();
+    }
+
+    [Button]
+    private void InstantiateUI()
+    {
+        placeableMaterialList = library.GetPlacableMaterials();
+        foreach (MaterialData data in placeableMaterialList)
+        {
+            GameObject element = Instantiate(materialUIElement, materialUI.transform);
+            element.name = data.name + " UI Element";
+            element.GetComponent<MaterialUI>().SetUIElements(this,data, data.Value.color, data.Value.properties.MaterialName);
+            materialUIList.Add(element);
+        }
+    }
+
+    [Button]
+    private void RemoveUI()
+    {
+        foreach(GameObject element in materialUIList)
+        {
+            DestroyImmediate(element);
+        }
+        materialUIList.Clear();
+    }
+
+    public void SetSelectedData(MaterialData data)
+    {
+        selectedData = data;
+        foreach(GameObject element in materialUIList)
+        {
+            element.GetComponent<MaterialUI>().CheckIfSelected(selectedData);
+        }
     }
 
     // Update is called once per frame
@@ -41,14 +88,16 @@ public class PlayerManager : MonoBehaviour
     {
         Selection();
 
-        if(Input.GetMouseButtonDown(0))
+        //selected tool
+        if (Input.GetMouseButtonDown(0))
         {
             foreach (GameObject pixel in brushHits)
             {
-                SetPixel(pixel, selectedData);
+                UseToolOnPixel(pixel);
             }
         }
-        if(Input.GetMouseButtonDown(1))
+        //eraser tool
+        if (Input.GetMouseButtonDown(1))
         {
             foreach(GameObject pixel in brushHits)
             {
@@ -58,13 +107,43 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    void SetPixel(GameObject pixel,PixelData data)
+    void UseToolOnPixel(GameObject pixel)
     {
+        if (pixel.GetComponent<PixelDataHolder>().data.properties.State != MaterialProperties.MatterState.Meta)
+        {
+            switch (selectedTool)
+            {
+                case Tool.Place:
+                    SetPixel(pixel, selectedData.Value);
+                    break;
+                case Tool.Compact:
+                    break;
+                case Tool.Agitate:
+                    break;
+            }
+        }
+    }
+
+    //set pixel to specified data
+    void SetPixel(GameObject pixel, PixelData reference)
+    {
+        PixelData data = new PixelData(reference);
+        
         Vector2Int pos = pixel.GetComponent<PixelDataHolder>().data.position;
         simHandler.Grid[pos.x, pos.y] = data;
         simHandler.Grid[pos.x, pos.y].position = pos;
         simHandler.Grid[pos.x, pos.y].color = simHandler.Grid[pos.x, pos.y].properties.GetColor(pos);
         simHandler.SetPixelData(pixel, pos.x, pos.y);
+    }
+
+    void Compact(GameObject pixel)
+    {
+        //check if pixel can be compressed and compress by setting the spread pattern to something more solid
+    }
+
+    void Agitate(GameObject pixel)
+    {
+        //check if pixel can be agitated and liquify by setting the spread pattern to something more liquid
     }
 
     void Selection()
@@ -111,6 +190,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    PixelData GetData(GameObject pixel)
+    {
+        return pixel.GetComponent<PixelDataHolder>().data;
+    }
+
     void CheckBrushHits(Vector3 pos)
     {
         brushHits = new List<GameObject>();
@@ -128,6 +212,11 @@ public class PlayerManager : MonoBehaviour
         {
             brushHits.Add(hit.gameObject);
         }
+    }
+
+    public void SetTool(int i)
+    {
+        selectedTool = (Tool)i;
     }
 
     private void OnDrawGizmos()

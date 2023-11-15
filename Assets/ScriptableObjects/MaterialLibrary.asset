@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Materials:
   - name: Air
+    placable: 0
     key: 0
     Value:
       properties: {fileID: 11400000, guid: 180d37f4fd1237a4c9b97483016306e6, type: 2}
@@ -22,46 +23,52 @@ MonoBehaviour:
       Hydration: 0
       ReactionProgress: 0
   - name: Water
+    placable: 1
     key: 1
     Value:
       properties: {fileID: 11400000, guid: 0ac846ec37e967f44b53ea805c8fd20e, type: 2}
-      position: {x: 0, y: 0}
-      color: {r: 0, g: 0, b: 0, a: 1}
+      position: {x: 70, y: 36}
+      color: {r: 0.4745098, g: 0.5411765, b: 0.92941177, a: 1}
       Hydration: 1
       ReactionProgress: 0
   - name: Sand
+    placable: 1
     key: 2
     Value:
       properties: {fileID: 11400000, guid: 4fae804c2cf32dd4fba6397f11dcbdfc, type: 2}
-      position: {x: 0, y: 0}
-      color: {r: 0, g: 0, b: 0, a: 1}
+      position: {x: 31, y: 30}
+      color: {r: 0.9372549, g: 0.92156863, b: 0.7254902, a: 1}
       Hydration: 0
       ReactionProgress: 0
   - name: Brick
+    placable: 1
     key: 3
     Value:
       properties: {fileID: 11400000, guid: 35566efe9c76a22448cea45922b5dbc1, type: 2}
-      position: {x: 0, y: 0}
-      color: {r: 0, g: 0, b: 0, a: 0}
+      position: {x: 88, y: 36}
+      color: {r: 0.7411765, g: 0.20784314, b: 0.15294118, a: 1}
       Hydration: 0
       ReactionProgress: 0
   - name: Dirt
+    placable: 1
     key: 4
     Value:
       properties: {fileID: 11400000, guid: ea31c426aa2b7ae44b57fd7ad1364d87, type: 2}
-      position: {x: 0, y: 0}
-      color: {r: 0, g: 0, b: 0, a: 0}
+      position: {x: 30, y: 76}
+      color: {r: 0.30980393, g: 0.1764706, b: 0.14901961, a: 1}
       Hydration: 0
       ReactionProgress: 0
   - name: Concrete
+    placable: 1
     key: 5
     Value:
       properties: {fileID: 11400000, guid: a1627ce724d577e4fb6b353e88304a6b, type: 2}
-      position: {x: 0, y: 0}
-      color: {r: 0, g: 0, b: 0, a: 0}
+      position: {x: 4, y: 10}
+      color: {r: 0.5921569, g: 0.5921569, b: 0.5921569, a: 1}
       Hydration: 0
       ReactionProgress: 0.14
   - name: BoundaryRock
+    placable: 0
     key: 6
     Value:
       properties: {fileID: 11400000, guid: a99cf6ecb09817b44b166d16f0543dea, type: 2}
