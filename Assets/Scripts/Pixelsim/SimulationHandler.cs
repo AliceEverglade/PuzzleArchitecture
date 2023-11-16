@@ -124,9 +124,20 @@ public class SimulationHandler : MonoBehaviour
 
     private void FlipPixels(Vector2Int pos1, Vector2Int pos2)
     {
+        //store original positions
+        List<Vector2Int> positions = new List<Vector2Int>
+        {
+            Grid[pos1.x, pos1.y].position,
+            Grid[pos2.x, pos2.y].position
+        };
+
         PixelData temp = Grid[pos1.x, pos1.y];
         nextFrame[pos1.x, pos1.y] = Grid[pos2.x, pos2.y];
         nextFrame[pos2.x,pos2.y] = temp;
+
+        //reset positions
+        nextFrame[pos1.x, pos1.y].position = positions[0];
+        nextFrame[pos2.x, pos2.y].position = positions[1];
     }
 
     private bool CalculatePixelPhysics(int x, int y)
@@ -328,6 +339,15 @@ public class SimulationHandler : MonoBehaviour
             Camera.main.ScreenToWorldPoint(boundary[0].transform.position).x -
             Camera.main.ScreenToWorldPoint(boundary[1].transform.position).x);
         Debug.Log((int)(width / (GetPixelSize(PixelPrefab) / 2)) * (int)(height / (GetPixelSize(PixelPrefab) / 2)));
+    }
+
+    [Button]
+    public void GetPixelData()
+    {
+        foreach (GameObject pixel in Pixels)
+        {
+            Debug.Log(pixel.GetComponent<PixelDataHolder>().data.position);
+        }
     }
 
     #endregion
