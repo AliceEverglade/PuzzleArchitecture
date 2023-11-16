@@ -152,6 +152,7 @@ public class SimulationHandler : MonoBehaviour
             checkedIndexes.Add(currentIndex);
             Vector2Int targetPos = Grid[x, y].properties.SpreadPattern.Pattern[currentIndex];
             targetPos.y = -targetPos.y;
+
             //if not out of bounds
             if (!(
                 targetPos.x + x < 0 ||
@@ -160,17 +161,21 @@ public class SimulationHandler : MonoBehaviour
                 targetPos.y + y >= Grid.GetLength((int)Axis.y)
                 ))
             {
+                //if spreadpattern does not go up (gasses heavier than air)
                 if (!Grid[x, y].properties.SpreadPattern.GoesUp)
                 {
+                    //if the state of the target position is liquid or gas
                     if (Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Liquid ||
                         Grid[x + targetPos.x, y + targetPos.y].properties.State == MaterialProperties.MatterState.Gas)
                     {
+                        //matterstate switch case
                         switch (Grid[x + targetPos.x, y + targetPos.y].properties.State)
                         {
                             //physics interactions
                             case MaterialProperties.MatterState.Granular:
                             case MaterialProperties.MatterState.Liquid:
                             case MaterialProperties.MatterState.Gas:
+                                //if the density of the target position is less than the density of the current position
                                 if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
                                 {
                                     FlipPixels(origin, origin + targetPos);
@@ -178,12 +183,14 @@ public class SimulationHandler : MonoBehaviour
                                 }
                                 break;
                             case MaterialProperties.MatterState.Solid:
+                                //if the surrounding pixels are not of the same material as the current pixel
                                 if (!(
                                     Grid[x + 1, y].properties == Grid[x, y].properties ||
                                     Grid[x - 1, y].properties == Grid[x, y].properties ||
                                     Grid[x, y + 1].properties == Grid[x, y].properties ||
                                     Grid[x, y - 1].properties == Grid[x, y].properties))
                                 {
+                                    //if the density of the target position is less than the density of the current position
                                     if (Grid[x + targetPos.x, y + targetPos.y].properties.Density < Grid[x, y].properties.Density)
                                     {
                                         FlipPixels(origin, origin + targetPos);
