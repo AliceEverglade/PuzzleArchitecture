@@ -29,7 +29,7 @@ public class PieceSpawner : MonoBehaviour
     {
         GameObject newPiece = Instantiate(PiecePrefab);
 
-        subPieceList.MakeList();
+        subPieceList.MakeList(); //EasyButtons does not support list parameters
 
         Vector3 position = new Vector3();
         int subPieceCount = 0;
@@ -44,24 +44,23 @@ public class PieceSpawner : MonoBehaviour
             }
         }
 
-        newPiece.transform.position = position / subPieceCount;
+        newPiece.transform.position = position / subPieceCount; //Wrapper element's position is centered on every subelement
 
         foreach (GameObject subPiece in subPieceList.SubPieces)
         {
             if (subPiece != null)
             {
-                
-                subPiece.transform.parent = newPiece.transform;
-                
+                subPiece.transform.parent = newPiece.transform;   
             }
         }
 
         bool unnamed = true;
         int currentPiece = 1;
-        while (unnamed)
+        while (unnamed) // while the new piece is not named
         {
-            if (GameObject.Find("Piece" + currentPiece) == null)
+            if (GameObject.Find("Piece" + currentPiece) == null) // if a piece with name Piece[currentPiece] does not exist
             {
+                //Name the piece Piece[currentPiece]
                 newPiece.name = "Piece" + currentPiece;
                 newPiece.GetComponent<PieceData>().ID = currentPiece;
                 unnamed = false;
@@ -69,7 +68,7 @@ public class PieceSpawner : MonoBehaviour
             else { currentPiece++; }
         }
 
-        newPiece.transform.parent = GameObject.Find("PuzzleContainer").transform;
+        newPiece.transform.parent = GameObject.Find("PuzzleContainer").transform; //Set PuzzleContainer as newPiece's parent.
 
         SetBounds(newPiece);
     }
@@ -77,32 +76,30 @@ public class PieceSpawner : MonoBehaviour
     void SetBounds(GameObject piece)
     {
         Bounds bounds = new Bounds();
-        bounds.center = piece.transform.position;
+        bounds.center = piece.transform.position; //center bounds on piece's position
 
-        if (!piece.gameObject.CompareTag("PieceContainer")) return;
+        if (!piece.gameObject.CompareTag("PieceContainer")) return; //if the piece in question is NOT tagged as a pieceContainer
 
         foreach (Transform child in piece.transform)
         {
-            if (child.CompareTag("ConnectionPoint")) continue;
+            //if (child.CompareTag("ConnectionPoint")) continue;
 
-            if (!child.CompareTag("ConnectionPoint"))
+            if (!child.CompareTag("ConnectionPoint")) // if the child element in question is NOT a connection point
             {
+                // Encapsulate bounds to contain the bounds of the child element
                 bounds.Encapsulate(child.GetComponent<Collider>().bounds);
-                Debug.Log(bounds);
             }
         }
 
+        //Encapsulate piece's BoxCollider's bounds to contain the previously established bounds, and set its size to the size of the bounds.
         piece.GetComponent<BoxCollider>().bounds.Encapsulate(bounds);
-        Debug.Log(piece.GetComponent<Collider>().bounds);
-
         piece.GetComponent<BoxCollider>().size = bounds.size;
-
-        Debug.Log(bounds);
     }
 
     [System.Serializable]
     public class SubPieceList
     {
+        //Awkward workaround for list parameter.
         public GameObject SubPiece1;
         public GameObject SubPiece2;
         public GameObject SubPiece3;

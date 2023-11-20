@@ -687,7 +687,6 @@ GameObject:
   - component: {fileID: 326180880}
   - component: {fileID: 326180881}
   - component: {fileID: 326180883}
-  - component: {fileID: 326180884}
   - component: {fileID: 326180886}
   - component: {fileID: 326180887}
   m_Layer: 0
@@ -754,18 +753,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &326180884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326180879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &326180886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,7 +794,6 @@ GameObject:
   - component: {fileID: 391451054}
   - component: {fileID: 391451056}
   - component: {fileID: 391451055}
-  - component: {fileID: 391451058}
   - component: {fileID: 391451060}
   - component: {fileID: 391451061}
   m_Layer: 0
@@ -874,18 +860,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &391451058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 391451053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &391451060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,7 +901,6 @@ GameObject:
   - component: {fileID: 463715596}
   - component: {fileID: 463715597}
   - component: {fileID: 463715599}
-  - component: {fileID: 463715600}
   - component: {fileID: 463715602}
   - component: {fileID: 463715603}
   m_Layer: 0
@@ -994,18 +967,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &463715600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463715595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &463715602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,7 +1180,6 @@ GameObject:
   - component: {fileID: 648567951}
   - component: {fileID: 648567952}
   - component: {fileID: 648567954}
-  - component: {fileID: 648567955}
   - component: {fileID: 648567957}
   - component: {fileID: 648567958}
   m_Layer: 0
@@ -1286,18 +1246,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &648567955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648567950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &648567957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,7 +1437,6 @@ GameObject:
   - component: {fileID: 856839234}
   - component: {fileID: 856839235}
   - component: {fileID: 856839237}
-  - component: {fileID: 856839238}
   - component: {fileID: 856839240}
   - component: {fileID: 856839241}
   m_Layer: 0
@@ -1556,18 +1503,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &856839238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856839233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &856839240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1759,7 +1694,6 @@ GameObject:
   - component: {fileID: 895478990}
   - component: {fileID: 895478991}
   - component: {fileID: 895478993}
-  - component: {fileID: 895478994}
   - component: {fileID: 895478996}
   - component: {fileID: 895478997}
   m_Layer: 0
@@ -1826,18 +1760,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &895478994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895478989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &895478996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2725,7 +2647,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -645.1144, w: 0}
+  m_margin: {x: NaN, y: NaN, z: NaN, w: NaN}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3338,6 +3260,7 @@ GameObject:
   - component: {fileID: 1436145018}
   - component: {fileID: 1436145017}
   - component: {fileID: 1436145019}
+  - component: {fileID: 1436145020}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3500,6 +3423,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f5f0350e820e6c4fb05a0935fdb1362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  move: {x: 0, y: 0, z: 0}
+  rotate: {x: 0, y: 0}
+  speed: 10
+  mouseSensitivity: 2000
+  xInput: 0
+  yInput: 0
+  zInput: 0
+--- !u!114 &1436145020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436145013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980b5b710d5851b40a354e5e3df5a21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
@@ -4361,7 +4304,6 @@ GameObject:
   - component: {fileID: 1792641596}
   - component: {fileID: 1792641597}
   - component: {fileID: 1792641599}
-  - component: {fileID: 1792641600}
   - component: {fileID: 1792641602}
   - component: {fileID: 1792641603}
   m_Layer: 0
@@ -4428,18 +4370,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &1792641600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792641595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1792641602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4599,7 +4529,6 @@ GameObject:
   - component: {fileID: 2010727108}
   - component: {fileID: 2010727109}
   - component: {fileID: 2010727111}
-  - component: {fileID: 2010727112}
   - component: {fileID: 2010727114}
   - component: {fileID: 2010727115}
   m_Layer: 0
@@ -4666,18 +4595,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   connectorPrefab: {fileID: 7123477560346041359, guid: 0c375a2e64e224040be263ea93f3cd7d,
     type: 3}
---- !u!114 &2010727112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010727107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db47516670d6db44a62ffa503433de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2010727114
 MonoBehaviour:
   m_ObjectHideFlags: 0

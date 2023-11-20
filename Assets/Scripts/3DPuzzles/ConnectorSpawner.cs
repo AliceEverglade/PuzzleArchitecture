@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
 
+/// <summary>
+/// Responsible for spawning connectors during puzzle CREATION process.
+/// TODO: Add comments.
+/// </summary>
+
 public class ConnectorSpawner : MonoBehaviour
 {
     [SerializeField] private Bounds bounds = new Bounds();
@@ -62,7 +67,7 @@ public class ConnectorSpawner : MonoBehaviour
     void SetConnectorFace(GameObject connector, Face face)
     {
         connector.transform.position = gameObject.transform.position;
-        Bounds bounds = gameObject.GetComponent<BoxCollider>().bounds;
+        bounds = gameObject.GetComponent<BoxCollider>().bounds;
 
         switch (face)
         {

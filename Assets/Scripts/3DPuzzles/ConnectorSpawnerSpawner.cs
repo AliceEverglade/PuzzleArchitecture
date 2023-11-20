@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
 
-public class ConnectorMoverSpawner : MonoBehaviour
+/// <summary>
+/// Adds ConnectorSpawner scripts to pieces and their subelements (excl. connectors themselves)
+/// </summary>
+
+public class ConnectorSpawnerSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

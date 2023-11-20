@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Responsible for handling interactions with the piece, such as selection and setting a piece as a connection's main piece.
+/// </summary>
+
 public class PieceHandler : MonoBehaviour
 {
     [SerializeField] private ConnectionManager connectionManager;
@@ -11,6 +15,8 @@ public class PieceHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Destroy(GetComponent<BoxCollider>()); // Destroy boxcollider during runtime to avoid interference during piecemovement.
+
         connectionManager = FindObjectOfType<ConnectionManager>();
         pieceData = GetComponent<PieceData>();
     }
@@ -18,8 +24,8 @@ public class PieceHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetMaterial();
-        CheckMouseClick();
+        SetMaterial(); // Set SubElement's material (to be moved to a subelement script)
+        CheckMouseClick(); // Check if mouse is being clicked
     }
 
     private void SetMaterial()
@@ -44,12 +50,14 @@ public class PieceHandler : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, 100))
             {
-                if (pieceData.SubElements.Contains(hit.transform.gameObject))
+                if (pieceData.SubElements.Contains(hit.transform.gameObject)) //If clicked-on element is in the list of this piece's SubElements
                 {
+                    // Clear check-lists
                     connectionManager.CheckedConnectors.Clear();
                     connectionManager.PiecesToCheck.Clear();
 
-                    connectionManager.ChangeMainPiece(this.gameObject);
+                    //Set this piece as the main piece
+                    connectionManager.ChangeMainPiece(gameObject);
 
                     Selected = true;
                 }

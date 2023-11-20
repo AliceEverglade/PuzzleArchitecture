@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Responsible for managing connections and keeping track of game state.
+/// </summary>
+
 public class ConnectionManager : MonoBehaviour
 {
     public List<Connection> Connections;
