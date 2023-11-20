@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         UIElements.Add("ConnectUI", GameObject.Find("ConnectUI"));
-        UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrNoWinUI"));
+        UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrMistakeUI"));
         
         //Turns off all UI
         foreach (KeyValuePair<string, GameObject> UIElement in UIElements)
