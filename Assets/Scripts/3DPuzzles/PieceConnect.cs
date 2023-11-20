@@ -35,7 +35,7 @@ public class PieceConnect : MonoBehaviour
         //Activate Popup UI
         if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject))
         {
-            //ToggleConnectUI?.Invoke(true, "ConnectUI", null, null);
+            ToggleConnectUI?.Invoke(true, "ConnectUI", null, null);
             
             Connect(otherPiece);
         }

@@ -45,11 +45,11 @@ public class UIManager : MonoBehaviour
     //Controls UI popups
     public void ConnectUI(bool toggle, string key, string text, Color? color)
     {
-        /*UIElements[key].SetActive(toggle);
+        UIElements[key].SetActive(toggle);
         if (text != null)
         {
             ChangeText(UIElements[key], text, color);
-        }*/
+        }
     }
 
     //Changes text in UI popups

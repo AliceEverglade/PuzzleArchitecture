@@ -24,20 +24,7 @@ public class PieceHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetMaterial(); // Set SubElement's material (to be moved to a subelement script)
         CheckMouseClick(); // Check if mouse is being clicked
-    }
-
-    private void SetMaterial()
-    {
-        if (Selected)
-        {
-            //gameObject.GetComponent<MeshRenderer>().material = selectMaterial;
-        }
-        else
-        {
-            //gameObject.GetComponent<MeshRenderer>().material = deselectMaterial;
-        }
     }
 
     private void CheckMouseClick()
