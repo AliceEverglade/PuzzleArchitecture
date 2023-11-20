@@ -86,7 +86,7 @@ public class SimulationHandler : MonoBehaviour
             {
                 if (Grid[x,y].properties.State != MaterialProperties.MatterState.Meta)
                 {
-                    //chem check
+                    CalculatePixelChemistry(x, y);
                     CalculatePixelPhysics(x, y);
                 }
             }
@@ -142,6 +142,7 @@ public class SimulationHandler : MonoBehaviour
 
     private bool CalculatePixelPhysics(int x, int y)
     {
+        //do physics checks [needs upgrading]
         Vector2Int origin = new Vector2Int(x, y);
         List<int> checkedIndexes = new List<int>();
         int currentIndex;
@@ -219,7 +220,7 @@ public class SimulationHandler : MonoBehaviour
 
     private void CalculatePixelChemistry(int x, int y)
     {
-
+        //do chemistry checks
     }
 
     public void SetPixelData(GameObject pixel,int x, int y)

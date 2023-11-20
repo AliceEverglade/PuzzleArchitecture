@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using TMPro;
 
+/// <summary>
+/// script on connection points that handles connecting and disconnecting
+/// </summary>
 public class PieceConnect : MonoBehaviour
 {
     [SerializeField] private ConnectionSO connectionSO;
@@ -12,6 +15,7 @@ public class PieceConnect : MonoBehaviour
 
     public GameObject connectedConnector = null;
 
+    //toggles UI to signal connecting being available
     public static event Action<bool, string, string, Color?> ToggleConnectUI;
 
     private void Start()
@@ -36,6 +40,7 @@ public class PieceConnect : MonoBehaviour
         }
     }
 
+    //connects connection points to eachother.
     private void Connect(Collider otherPiece)
     {
         if (Input.GetKey(KeyCode.F))
@@ -53,7 +58,7 @@ public class PieceConnect : MonoBehaviour
         }
     }
 
-
+    //breaks a connection.
     private void Disconnect()
     {
         if (Input.GetKeyDown(KeyCode.G) && pieceData.Selected)
@@ -74,6 +79,7 @@ public class PieceConnect : MonoBehaviour
         }
     }
 
+    //turns off UI
     private void OnTriggerExit(Collider other)
     {
         ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);

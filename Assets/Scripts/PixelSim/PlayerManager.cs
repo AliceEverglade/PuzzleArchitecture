@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using EasyButtons;
-
+using UnityEngine.UI;
 
 /// <summary>
 /// the player controller that handles the brushes, tools and material selection.
@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject mouseUI;
     [SerializeField] private Vector3 mouseUIOffset;
     private TMP_Text mouseUIText;
+
+    [SerializeField] private Slider brushSizeSlider;
 
     [SerializeField] private BrushShapes brushShape;
     private float brushSize => (inputBrushSize) * (simHandler.GetPixelSize(simHandler.PixelPrefab) / 2);
@@ -62,6 +64,8 @@ public class PlayerManager : MonoBehaviour
             element.GetComponent<MaterialUI>().SetUIElements(this,data, data.Value.color, data.Value.properties.MaterialName);
             materialUIList.Add(element);
         }
+
+        SetSelectedData(placeableMaterialList[0]);
     }
 
     [Button]
@@ -87,9 +91,9 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         Selection();
-
+        inputBrushSize = brushSizeSlider.value;
         //selected tool
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             foreach (GameObject pixel in brushHits)
             {
@@ -97,12 +101,15 @@ public class PlayerManager : MonoBehaviour
             }
         }
         //eraser tool
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             foreach(GameObject pixel in brushHits)
             {
-                //set pixeldata and grid stuff
-                SetPixel(pixel, eraserData);
+                if (pixel.GetComponent<PixelDataHolder>().data.properties.State != MaterialProperties.MatterState.Meta)
+                {
+                    //set pixeldata and grid stuff
+                    SetPixel(pixel, eraserData);
+                }
             }
         }
     }
@@ -117,8 +124,10 @@ public class PlayerManager : MonoBehaviour
                     SetPixel(pixel, selectedData.Value);
                     break;
                 case Tool.Compact:
+                    Compact(pixel);
                     break;
                 case Tool.Agitate:
+                    Agitate(pixel);
                     break;
             }
         }
