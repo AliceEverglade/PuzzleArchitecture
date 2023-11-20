@@ -5,8 +5,9 @@ using System;
 using TMPro;
 
 /// <summary>
-/// script on connection points that handles connecting and disconnecting
+/// Script on connection points that handles connecting and disconnecting.
 /// </summary>
+
 public class PieceConnect : MonoBehaviour
 {
     [SerializeField] private ConnectionSO connectionSO;
@@ -15,7 +16,7 @@ public class PieceConnect : MonoBehaviour
 
     public GameObject connectedConnector = null;
 
-    //toggles UI to signal connecting being available
+    //Toggles UI to signal connecting being available.
     public static event Action<bool, string, string, Color?> ToggleConnectUI;
 
     private void Start()
@@ -31,7 +32,7 @@ public class PieceConnect : MonoBehaviour
 
     private void OnTriggerStay(Collider otherPiece)
     {
-        // Activate Popup UI
+        //Activate Popup UI
         if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject))
         {
             //ToggleConnectUI?.Invoke(true, "ConnectUI", null, null);

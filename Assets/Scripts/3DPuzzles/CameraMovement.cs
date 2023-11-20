@@ -5,7 +5,6 @@ using UnityEngine;
 
 /// <summary>
 /// Responsible for handling camera movement (via keyboard controls).
-/// TODO: Add comments.
 /// </summary>
 
 public class CameraMovement : MonoBehaviour

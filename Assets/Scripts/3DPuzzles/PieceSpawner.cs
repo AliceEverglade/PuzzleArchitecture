@@ -7,34 +7,27 @@ using System.Reflection;
 using UnityEngine;
 using EasyButtons;
 
+/// <summary>
+/// Responsible for spawning pieces during puzzle CREATION process.
+/// </summary>
+
 public class PieceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject PiecePrefab;
     [SerializeField] private PuzzleDataSO pieceData;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Creates a piece with subelements
     [Button]
-    private void CreatePiece(SubPieceList subPieceList)
+    private void CreatePiece(SubElementList subElementList)
     {
         GameObject newPiece = Instantiate(PiecePrefab);
 
-        subPieceList.MakeList(); //EasyButtons does not support list parameters
+        subElementList.MakeList(); //EasyButtons does not support list parameters
 
         Vector3 position = new Vector3();
         int subPieceCount = 0;
 
-        foreach (GameObject subPiece in subPieceList.SubPieces)
+        foreach (GameObject subPiece in subElementList.SubElements)
         {
             if (subPiece != null)
             {
@@ -46,7 +39,7 @@ public class PieceSpawner : MonoBehaviour
 
         newPiece.transform.position = position / subPieceCount; //Wrapper element's position is centered on every subelement
 
-        foreach (GameObject subPiece in subPieceList.SubPieces)
+        foreach (GameObject subPiece in subElementList.SubElements)
         {
             if (subPiece != null)
             {
@@ -73,6 +66,7 @@ public class PieceSpawner : MonoBehaviour
         SetBounds(newPiece);
     }
 
+    //Sets the bounds of a Piece's boxcollider based on its child objects.
     void SetBounds(GameObject piece)
     {
         Bounds bounds = new Bounds();
@@ -97,55 +91,55 @@ public class PieceSpawner : MonoBehaviour
     }
 
     [System.Serializable]
-    public class SubPieceList
+    public class SubElementList
     {
         //Awkward workaround for list parameter.
-        public GameObject SubPiece1;
-        public GameObject SubPiece2;
-        public GameObject SubPiece3;
-        public GameObject SubPiece4;
-        public GameObject SubPiece5;
-        public GameObject SubPiece6;
-        public GameObject SubPiece7;
-        public GameObject SubPiece8;
-        public GameObject SubPiece9;
-        public GameObject SubPiece10;
-        public GameObject SubPiece11;
-        public GameObject SubPiece12;
-        public GameObject SubPiece13;
-        public GameObject SubPiece14;
-        public GameObject SubPiece15;
-        public GameObject SubPiece16;
-        public GameObject SubPiece17;
-        public GameObject SubPiece18;
-        public GameObject SubPiece19;
-        public GameObject SubPiece20;
+        public GameObject SubElement1;
+        public GameObject SubElement2;
+        public GameObject SubElement3;
+        public GameObject SubElement4;
+        public GameObject SubElement5;
+        public GameObject SubElement6;
+        public GameObject SubElement7;
+        public GameObject SubElement8;
+        public GameObject SubElement9;
+        public GameObject SubElement10;
+        public GameObject SubElement11;
+        public GameObject SubElement12;
+        public GameObject SubElement13;
+        public GameObject SubElement14;
+        public GameObject SubElement15;
+        public GameObject SubElement16;
+        public GameObject SubElement17;
+        public GameObject SubElement18;
+        public GameObject SubElement19;
+        public GameObject SubElement20;
 
         [HideInInspector]
-        public List<GameObject> SubPieces;
+        public List<GameObject> SubElements;
 
         public void MakeList()
         {
-            SubPieces.Add(SubPiece1);
-            SubPieces.Add(SubPiece2);
-            SubPieces.Add(SubPiece3);
-            SubPieces.Add(SubPiece4);
-            SubPieces.Add(SubPiece5);
-            SubPieces.Add(SubPiece6);
-            SubPieces.Add(SubPiece7);
-            SubPieces.Add(SubPiece8);
-            SubPieces.Add(SubPiece9);
-            SubPieces.Add(SubPiece10);
-            SubPieces.Add(SubPiece11);
-            SubPieces.Add(SubPiece12);
-            SubPieces.Add(SubPiece13);
-            SubPieces.Add(SubPiece14);
-            SubPieces.Add(SubPiece15);
-            SubPieces.Add(SubPiece16);
-            SubPieces.Add(SubPiece17);
-            SubPieces.Add(SubPiece18);
-            SubPieces.Add(SubPiece19);
-            SubPieces.Add(SubPiece20);
+            SubElements.Add(SubElement1);
+            SubElements.Add(SubElement2);
+            SubElements.Add(SubElement3);
+            SubElements.Add(SubElement4);
+            SubElements.Add(SubElement5);
+            SubElements.Add(SubElement6);
+            SubElements.Add(SubElement7);
+            SubElements.Add(SubElement8);
+            SubElements.Add(SubElement9);
+            SubElements.Add(SubElement10);
+            SubElements.Add(SubElement11);
+            SubElements.Add(SubElement12);
+            SubElements.Add(SubElement13);
+            SubElements.Add(SubElement14);
+            SubElements.Add(SubElement15);
+            SubElements.Add(SubElement16);
+            SubElements.Add(SubElement17);
+            SubElements.Add(SubElement18);
+            SubElements.Add(SubElement19);
+            SubElements.Add(SubElement20);
         }
     }
 }

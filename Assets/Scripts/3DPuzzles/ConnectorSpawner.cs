@@ -5,7 +5,6 @@ using EasyButtons;
 
 /// <summary>
 /// Responsible for spawning connectors during puzzle CREATION process.
-/// TODO: Add comments.
 /// </summary>
 
 public class ConnectorSpawner : MonoBehaviour
@@ -13,6 +12,7 @@ public class ConnectorSpawner : MonoBehaviour
     [SerializeField] private Bounds bounds = new Bounds();
     [SerializeField] private GameObject connectorPrefab;
 
+    //Keeps track of the Face a connector needs to spawn on
     enum Face
     {
         Top,
@@ -23,6 +23,7 @@ public class ConnectorSpawner : MonoBehaviour
         Back
     }
 
+    //Keeps track of which way to offset the connectorpoint horizontally
     enum XPosition
     {
         Left,
@@ -30,6 +31,7 @@ public class ConnectorSpawner : MonoBehaviour
         Right
     }
 
+    //Keeps track of which way to offset the connectorpoint vertically
     enum YPosition
     {
         Up,
@@ -37,6 +39,7 @@ public class ConnectorSpawner : MonoBehaviour
         Down
     }
 
+    //Creates a connector
     [Button]
     void SpawnConnector(Face face = Face.Front, XPosition xPosition = XPosition.Center, YPosition yPosition = YPosition.Center)
     {
@@ -44,6 +47,7 @@ public class ConnectorSpawner : MonoBehaviour
 
         int pieceID = 1;
 
+        //Checks if connector is being spawned from Piece or SubElement
         if (transform.parent.CompareTag("PieceContainer"))
         {
             pieceID = transform.parent.GetComponent<PieceData>().ID;
@@ -64,6 +68,7 @@ public class ConnectorSpawner : MonoBehaviour
         connector.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
     }
 
+    //Spawns connector at selected Face
     void SetConnectorFace(GameObject connector, Face face)
     {
         connector.transform.position = gameObject.transform.position;
@@ -100,6 +105,7 @@ public class ConnectorSpawner : MonoBehaviour
         }
     }
 
+    //Sets connector to selected x and y positions.
     void SetConnectorPosition(GameObject connector, XPosition xPosition, YPosition yPosition)
     {
         switch (xPosition)
@@ -127,6 +133,7 @@ public class ConnectorSpawner : MonoBehaviour
         }
     }
 
+    //Calculates which ConnectorID the connector gets.
     int DetermineConnectorID(int pieceID)
     {
         bool unnamed = true;

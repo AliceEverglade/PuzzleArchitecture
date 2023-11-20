@@ -5,14 +5,15 @@ using System;
 using TMPro;
 
 /// <summary>
-///  hanles UI for the puzzle game.
+/// Responsible for handling UI for the puzzle game.
 /// </summary>
+
 public class UIManager : MonoBehaviour
 {
-    //holds all UI elements with a key to locate them.
+    //Holds all UI elements with a key to locate them.
     [SerializeField] Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
 
-    //handles UI changes
+    //Handles UI changes
     public static event Action<bool> OnUIChange;
 
     private void Start()
@@ -20,12 +21,13 @@ public class UIManager : MonoBehaviour
         UIElements.Add("ConnectUI", GameObject.Find("ConnectUI"));
         UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrNoWinUI"));
         
-        //turns off all UI
+        //Turns off all UI
         foreach (KeyValuePair<string, GameObject> UIElement in UIElements)
         {
             UIElement.Value.SetActive(false);
         }
     }
+
     #region Enable Disable
     void OnEnable()
     {
@@ -40,7 +42,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    //controls UI popups
+    //Controls UI popups
     public void ConnectUI(bool toggle, string key, string text, Color? color)
     {
         /*UIElements[key].SetActive(toggle);
@@ -50,7 +52,7 @@ public class UIManager : MonoBehaviour
         }*/
     }
 
-    //changes text in UI popups
+    //Changes text in UI popups
     public void ChangeText(GameObject textObject, string text, Color? color)
     {
         textObject.GetComponent<TMP_Text>().text = text;
