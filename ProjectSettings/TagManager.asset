@@ -9,6 +9,8 @@ TagManager:
   - PieceContainer
   - Pixel
   - SubPiece
+  - SFXPlayer
+  - MusicPlayer
   layers:
   - Default
   - TransparentFX

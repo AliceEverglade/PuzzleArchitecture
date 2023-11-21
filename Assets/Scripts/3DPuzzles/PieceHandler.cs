@@ -11,6 +11,7 @@ public class PieceHandler : MonoBehaviour
     [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private PieceData pieceData;
     public bool Selected = false;
+    public bool CanConnect = false;
 
     // Start is called before the first frame update
     void Start()

@@ -10,6 +10,7 @@ public class PieceData : MonoBehaviour
 {
     public List<GameObject> SubElements;
     public List<GameObject> Connectors;
+    public bool CanConnect => GetComponent<PieceHandler>().CanConnect;
     public bool Selected => GetComponent<PieceHandler>().Selected; // Gets Selected from PieceHandler, prevents needing to call PieceHandler and PieceData in other scripts.
     public int ID; // Keeps track of ID mainly for use in puzzle CREATION process.
 

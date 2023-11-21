@@ -13,7 +13,11 @@ public class PieceConnect : MonoBehaviour
     [SerializeField] private ConnectionSO connectionSO;
     [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private PieceData pieceData;
+    [SerializeField] private GameObject audioObject;
 
+    [SerializeField] private AudioClip connectFX;
+    [SerializeField] private AudioClip disconnectFX;
+    
     public GameObject connectedConnector = null;
 
     //Toggles UI to signal connecting being available.
@@ -36,6 +40,7 @@ public class PieceConnect : MonoBehaviour
         if (otherPiece.gameObject.CompareTag("ConnectionPoint") && !connectionManager.IsConnected(gameObject, otherPiece.gameObject))
         {
             ToggleConnectUI?.Invoke(true, "ConnectUI", null, null);
+            transform.parent.GetComponent<PieceHandler>().CanConnect = true;
             
             Connect(otherPiece);
         }
@@ -44,45 +49,67 @@ public class PieceConnect : MonoBehaviour
     //connects connection points to eachother.
     private void Connect(Collider otherPiece)
     {
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.F) && pieceData.Selected)
         {
             connectionSO.Connect(gameObject, otherPiece.gameObject);
             connectedConnector = otherPiece.gameObject;
             otherPiece.GetComponent<PieceConnect>().connectedConnector = gameObject;
-
-            if (gameObject.transform.parent.GetComponent<PieceData>().Selected)
-            {
-                connectionManager.ChangeMainPiece(gameObject.transform.parent.gameObject);
-            }
-
+            connectionManager.ChangeMainPiece(gameObject.transform.parent.gameObject);
+            transform.parent.GetComponent<PieceHandler>().CanConnect = false;
             ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
+
+            PlaySound(connectFX);
         }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        bool soundExists = GameObject.FindGameObjectWithTag("SFXPlayer") != null;
+        Debug.Log(soundExists);
+
+        if (soundExists)
+        {
+            Destroy(GameObject.FindGameObjectWithTag("SFXPlayer"));
+        }
+
+        audioObject.GetComponent<AudioSource>().clip = clip;
+
+        GameObject spawnedSound = Instantiate(audioObject);
+        Destroy(spawnedSound, 1);
     }
 
     //breaks a connection.
     private void Disconnect()
     {
+        bool CanDisconnect = false;
+
         if (Input.GetKeyDown(KeyCode.G) && pieceData.Selected)
         {
             foreach (GameObject connector in pieceData.Connectors)
             {
-
                 GameObject secondConnector = connector.GetComponent<PieceConnect>().connectedConnector;
 
                 connectionSO.Disconnect(connector, secondConnector);
 
                 if (connector.GetComponent<PieceConnect>().connectedConnector != null)
                 {
+                    CanDisconnect = true;
                     secondConnector.GetComponent<PieceConnect>().connectedConnector = null;
                     connector.GetComponent<PieceConnect>().connectedConnector = null;
                 }
             }
+        }
+
+        if (CanDisconnect)
+        {
+            PlaySound(disconnectFX);
         }
     }
 
     //turns off UI
     private void OnTriggerExit(Collider other)
     {
+        transform.parent.GetComponent<PieceHandler>().CanConnect = false;
         ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
     }
 }

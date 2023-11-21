@@ -10,6 +10,8 @@ public class PieceDragging : MonoBehaviour
 {
     private Vector3 mouseOffset;
     private float mouseZ;
+    private bool canConnect => transform.parent.GetComponent<PieceHandler>().CanConnect;
+    //private bool canDrag = true;
 
     private void OnMouseDown()
     {
@@ -33,6 +35,19 @@ public class PieceDragging : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.parent.gameObject.transform.position = GetMouseWorldPosition() + mouseOffset;
+        //if (Input.GetKey(KeyCode.F) && canConnect)
+        //{
+        //    canDrag = false;
+        //}
+
+        //if (canDrag)
+        //{
+            transform.parent.gameObject.transform.position = GetMouseWorldPosition() + mouseOffset;
+        //}
+    }
+
+    private void OnMouseUp()
+    {
+        //canDrag = true;
     }
 }
