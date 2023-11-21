@@ -10,6 +10,11 @@ public class PieceHandler : MonoBehaviour
 {
     [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private PieceData pieceData;
+    [SerializeField] private GameObject audioObject;
+
+    [SerializeField] private AudioClip selectSFX;
+    [SerializeField] private AudioClip deselectSFX;
+
     public bool Selected = false;
     public bool CanConnect = false;
 
@@ -46,13 +51,26 @@ public class PieceHandler : MonoBehaviour
 
                     //Set this piece as the main piece
                     connectionManager.ChangeMainPiece(gameObject);
+                    
+                    if (!Selected) //If not previously already selected:
+                    {
+                        SFXHandler.Instance().PlaySound(audioObject, selectSFX);
+                    }
 
                     Selected = true;
+
                 }
                 else { Selected = false; }
             }
 
-            else { Selected = false; }
+            else { 
+                if (Selected) //If previously selected:
+                {
+                    SFXHandler.Instance().PlaySound(audioObject, deselectSFX);
+                }
+
+                Selected = false; 
+            }
         }
     }
 }

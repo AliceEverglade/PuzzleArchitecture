@@ -11,6 +11,7 @@ TagManager:
   - SubPiece
   - SFXPlayer
   - MusicPlayer
+  - SoundHandler
   layers:
   - Default
   - TransparentFX

@@ -58,24 +58,8 @@ public class PieceConnect : MonoBehaviour
             transform.parent.GetComponent<PieceHandler>().CanConnect = false;
             ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
 
-            PlaySound(connectFX);
+            SFXHandler.Instance().PlaySound(audioObject, connectFX);
         }
-    }
-
-    private void PlaySound(AudioClip clip)
-    {
-        bool soundExists = GameObject.FindGameObjectWithTag("SFXPlayer") != null;
-        Debug.Log(soundExists);
-
-        if (soundExists)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("SFXPlayer"));
-        }
-
-        audioObject.GetComponent<AudioSource>().clip = clip;
-
-        GameObject spawnedSound = Instantiate(audioObject);
-        Destroy(spawnedSound, 1);
     }
 
     //breaks a connection.
@@ -102,7 +86,7 @@ public class PieceConnect : MonoBehaviour
 
         if (CanDisconnect)
         {
-            PlaySound(disconnectFX);
+            SFXHandler.Instance().PlaySound(audioObject, disconnectFX);
         }
     }
 
