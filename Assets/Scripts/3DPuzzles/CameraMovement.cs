@@ -9,17 +9,19 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    Rigidbody rigidbody;
-    Vector3 move = new Vector3(0, 0, 0);
-    Vector2 rotate = new Vector2(0, 0);
-    [SerializeField] float speed = 10f;
+    private Rigidbody rigidbody;
+    private Vector3 move = new Vector3(0, 0, 0);
+    private Vector2 rotate = new Vector2(0, 0);
+
+    [SerializeField] private float drag = 2f;
+    [SerializeField] private float speed = 10f;
 
     [Range(1000, 3000)]
-    [SerializeField] float mouseSensitivity = 2000f;
+    [SerializeField] private float mouseSensitivity = 2000f;
 
-    float xInput;
-    float yInput;
-    float zInput;
+    private float xInput;
+    private float yInput;
+    private float zInput;
 
     // Start is called before the first frame update
     void Start()
@@ -30,38 +32,30 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KeyboardMovement();
-        VerticalMovement();
+        GetInputs();
         MouseLook();
     }
 
-    void KeyboardMovement()
+    private void FixedUpdate()
     {
-        xInput = Input.GetAxisRaw("Horizontal");
-        zInput = Input.GetAxisRaw("Vertical");
+        Movement();
+    }
 
+    private void GetInputs()
+    {
+        xInput = Input.GetAxisRaw("Horizontal (X)");
+    
+        zInput = Input.GetAxisRaw("Horizontal (Z)");
+    }
+
+    private void Movement()
+    {
         move = transform.forward * zInput + transform.right * xInput;
-        move.y = 0;
-        rigidbody.velocity = move.normalized * speed;
+        rigidbody.AddForce(move.normalized * speed, ForceMode.Force);
+        rigidbody.drag = drag; 
     }
 
-    void VerticalMovement()
-    {
-        yInput = 0;
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            yInput = 1;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            yInput = -1;
-        }
-
-        rigidbody.velocity += new Vector3(0.0f, yInput * speed, 0.0f);
-    }
-
-    void MouseLook()
+    private void MouseLook()
     {
         float mouseX;
         float mouseY;
