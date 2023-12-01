@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PuzzleToJSON;
 
 /// <summary>
 /// Responsible for handling interactions with the piece, such as selection and setting a piece as a connection's main piece.
@@ -41,8 +42,10 @@ public class PieceHandler : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(ray, out hit, 100))
+            if (Physics.Raycast(ray, out hit, 1000f))
             {
+                Debug.Log("test");
+
                 if (pieceData.SubElements.Contains(hit.transform.gameObject)) //If clicked-on element is in the list of this piece's SubElements
                 {
                     // Clear check-lists

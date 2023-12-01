@@ -96,4 +96,10 @@ public class PieceConnect : MonoBehaviour
         transform.parent.GetComponent<PieceHandler>().CanConnect = false;
         ToggleConnectUI?.Invoke(false, "ConnectUI", null, null);
     }
+
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, 0.125f);
+    }*/
 }

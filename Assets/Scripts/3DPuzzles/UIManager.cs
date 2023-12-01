@@ -11,28 +11,25 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     //Holds all UI elements with a key to locate them.
-    [SerializeField] Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
+    Dictionary<string, GameObject> UIElements = new Dictionary<string, GameObject>();
 
-    //Handles UI changes
+//Handles UI changes
     public static event Action<bool> OnUIChange;
-
-    private void Start()
-    {
-        UIElements.Add("ConnectUI", GameObject.Find("ConnectUI"));
-        UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrMistakeUI"));
-        
-        //Turns off all UI
-        foreach (KeyValuePair<string, GameObject> UIElement in UIElements)
-        {
-            UIElement.Value.SetActive(false);
-        }
-    }
 
     #region Enable Disable
     void OnEnable()
     {
         PieceConnect.ToggleConnectUI += ConnectUI;
         ConnectionManager.WinOrLose += ConnectUI;
+
+        UIElements.Add("ConnectUI", GameObject.Find("ConnectUI"));
+        UIElements.Add("WinOrNoWinUI", GameObject.Find("WinOrMistakeUI"));
+
+        //Turns off all UI
+        foreach (KeyValuePair<string, GameObject> UIElement in UIElements)
+        {
+            UIElement.Value.SetActive(false);
+        }
     }
 
     void OnDisable()
