@@ -6,6 +6,7 @@ using System.Reflection;
 
 using UnityEngine;
 using EasyButtons;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Responsible for spawning pieces during puzzle CREATION process.
@@ -18,7 +19,7 @@ public class PieceSpawner : MonoBehaviour
 
     //Creates a piece with subelements
     [Button]
-    private void CreatePiece(SubElementList subElementList)
+    private void CreatePiece(string name, SubElementList subElementList)
     {
         GameObject newPiece = Instantiate(PiecePrefab);
 
@@ -62,6 +63,11 @@ public class PieceSpawner : MonoBehaviour
         }
 
         newPiece.transform.parent = GameObject.Find("PuzzleContainer").transform; //Set PuzzleContainer as newPiece's parent.
+        
+        if (name != "" && name != null)
+        {
+            newPiece.name = name;
+        }
 
         SetBounds(newPiece);
     }
@@ -90,10 +96,23 @@ public class PieceSpawner : MonoBehaviour
         piece.GetComponent<BoxCollider>().size = bounds.size;
     }
 
+    //Adds box colliders to all puzzle piece sub-elements.
+    [Button]
+    private void AddBoxColliders()
+    {
+        foreach (Transform child in gameObject.transform)
+        {
+            foreach (Transform grandChild in child.transform)
+            {
+                grandChild.AddComponent<BoxCollider>();
+            }
+        }
+    }
+
     [System.Serializable]
     public class SubElementList
     {
-        //Awkward workaround for list parameter.
+        //Awkward workaround for inputting a List of GameObjects with EasyButtons.
         public GameObject SubElement1;
         public GameObject SubElement2;
         public GameObject SubElement3;
@@ -118,6 +137,7 @@ public class PieceSpawner : MonoBehaviour
         [HideInInspector]
         public List<GameObject> SubElements;
 
+        //Fills list with SubElement GameObjects
         public void MakeList()
         {
             SubElements.Add(SubElement1);

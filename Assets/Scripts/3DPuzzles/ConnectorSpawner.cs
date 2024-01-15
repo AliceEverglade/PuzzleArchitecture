@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EasyButtons;
+using static PieceSpawner;
 
 /// <summary>
 /// Responsible for spawning connectors during puzzle CREATION process.
@@ -148,5 +149,74 @@ public class ConnectorSpawner : MonoBehaviour
         }
 
         return currentConnector;
+    }
+
+    [Button]
+    private void ResetBounds()
+    {
+        List<GameObject> children = new List<GameObject>();
+
+        foreach (Transform child in transform)
+        {
+            children.Add(child.gameObject);
+        }
+
+        Vector3 position = new Vector3();
+        int subPieceCount = 0;
+
+        transform.DetachChildren();
+
+        foreach (GameObject child in children)
+        {
+            if (child != null)
+            {
+                position += child.transform.position;
+
+                subPieceCount++;
+            }
+        }
+
+        transform.position = position / subPieceCount; //Wrapper element's position is centered on every subelement
+        
+        Debug.Log(transform.position);
+
+        foreach (GameObject child in children)
+        {
+            if (child != null)
+            {
+                child.transform.parent = transform;
+            }
+        }
+
+        bool unnamed = true;
+
+        transform.parent = GameObject.Find("PuzzleContainer").transform; //Set PuzzleContainer as newPiece's parent.
+
+        SetBounds();
+    }
+
+    void SetBounds()
+    {
+        Bounds bounds = new Bounds();
+        gameObject.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
+        bounds.center = gameObject.transform.position; //center bounds on piece's position
+
+        if (!gameObject.gameObject.CompareTag("PieceContainer")) return; //if the piece in question is NOT tagged as a pieceContainer
+
+        foreach (Transform child in gameObject.transform)
+        {
+            //if (child.CompareTag("ConnectionPoint")) continue;
+
+            if (!child.CompareTag("ConnectionPoint")) // if the child element in question is NOT a connection point
+            {
+                // Encapsulate bounds to contain the bounds of the child element
+                Debug.Log(child.GetComponent<BoxCollider>().bounds);
+                bounds.Encapsulate(child.GetComponent<BoxCollider>().bounds);
+            }
+        }
+
+        //Encapsulate piece's BoxCollider's bounds to contain the previously established bounds, and set its size to the size of the bounds.
+        gameObject.GetComponent<BoxCollider>().bounds.Encapsulate(bounds);
+        gameObject.GetComponent<BoxCollider>().size = bounds.size;
     }
 }

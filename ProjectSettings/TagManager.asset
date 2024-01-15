@@ -12,6 +12,7 @@ TagManager:
   - SFXPlayer
   - MusicPlayer
   - SoundHandler
+  - PuzzleContainer
   layers:
   - Default
   - TransparentFX

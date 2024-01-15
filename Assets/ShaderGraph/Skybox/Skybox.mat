@@ -63,12 +63,12 @@ Material:
     - _StarVisiblityWest: 1
     - _ZenithBlendPower: 0.7
     m_Colors:
-    - _HorizonColor: {r: 0.34117648, g: 0.5529412, b: 0.9725491, a: 1}
-    - _NadirColor: {r: 0.34117648, g: 0.54509807, b: 0.9568628, a: 1}
+    - _HorizonColor: {r: 0.6519547, g: 0.12459328, b: 0.3214123, a: 1}
+    - _NadirColor: {r: 0.35910064, g: 0.071340896, b: 0.16970661, a: 1}
     - _StarAnimationSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _StarsColor: {r: 1, g: 0, b: 0.971643, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-    - _ZenithColor: {r: 0.21960786, g: 0.5921569, b: 0.91372555, a: 1}
+    - _ZenithColor: {r: 0.296314, g: 0.2414947, b: 0.4783107, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4957531361258628989
 MonoBehaviour:
