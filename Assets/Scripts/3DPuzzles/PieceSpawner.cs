@@ -18,33 +18,30 @@ public class PieceSpawner : MonoBehaviour
     [SerializeField] private PuzzleDataSO pieceData;
 
     //Creates a piece with subelements
-    [Button]
-    private void CreatePiece(string name, SubElementList subElementList)
+    public void CreatePiece(string name, List<GameObject> subElements)
     {
         GameObject newPiece = Instantiate(PiecePrefab);
-
-        subElementList.MakeList(); //EasyButtons does not support list parameters
 
         Vector3 position = new Vector3();
         int subPieceCount = 0;
 
-        foreach (GameObject subPiece in subElementList.SubElements)
+        foreach (GameObject subPiece in subElements)
         {
             if (subPiece != null)
             {
                 position += subPiece.transform.position;
-                
+
                 subPieceCount++;
             }
         }
 
         newPiece.transform.position = position / subPieceCount; //Wrapper element's position is centered on every subelement
 
-        foreach (GameObject subPiece in subElementList.SubElements)
+        foreach (GameObject subPiece in subElements)
         {
             if (subPiece != null)
             {
-                subPiece.transform.parent = newPiece.transform;   
+                subPiece.transform.parent = newPiece.transform;
             }
         }
 
@@ -62,14 +59,25 @@ public class PieceSpawner : MonoBehaviour
             else { currentPiece++; }
         }
 
-        newPiece.transform.parent = GameObject.Find("PuzzleContainer").transform; //Set PuzzleContainer as newPiece's parent.
+        GameObject tempContainer = GameObject.Find("tempContainer");
+
+        if (tempContainer == null)
+        {
+            tempContainer = new GameObject();
+        }
         
+        tempContainer.name = "tempContainer";
+        newPiece.transform.parent = tempContainer.transform; //Set tempcontainer as newPiece's parent.
+
         if (name != "" && name != null)
         {
             newPiece.name = name;
         }
 
+        AddBoxColliders();
         SetBounds(newPiece);
+
+        GameObject puzzleContainer = GameObject.Find("PuzzleContainer");       
     }
 
     //Sets the bounds of a Piece's boxcollider based on its child objects.
@@ -87,6 +95,10 @@ public class PieceSpawner : MonoBehaviour
             if (!child.CompareTag("ConnectionPoint")) // if the child element in question is NOT a connection point
             {
                 // Encapsulate bounds to contain the bounds of the child element
+                if (child.GetComponent<BoxCollider>() == null)
+                {
+                    child.AddComponent<BoxCollider>();
+                }
                 bounds.Encapsulate(child.GetComponent<Collider>().bounds);
             }
         }
@@ -97,7 +109,6 @@ public class PieceSpawner : MonoBehaviour
     }
 
     //Adds box colliders to all puzzle piece sub-elements.
-    [Button]
     private void AddBoxColliders()
     {
         foreach (Transform child in gameObject.transform)
@@ -106,60 +117,6 @@ public class PieceSpawner : MonoBehaviour
             {
                 grandChild.AddComponent<BoxCollider>();
             }
-        }
-    }
-
-    [System.Serializable]
-    public class SubElementList
-    {
-        //Awkward workaround for inputting a List of GameObjects with EasyButtons.
-        public GameObject SubElement1;
-        public GameObject SubElement2;
-        public GameObject SubElement3;
-        public GameObject SubElement4;
-        public GameObject SubElement5;
-        public GameObject SubElement6;
-        public GameObject SubElement7;
-        public GameObject SubElement8;
-        public GameObject SubElement9;
-        public GameObject SubElement10;
-        public GameObject SubElement11;
-        public GameObject SubElement12;
-        public GameObject SubElement13;
-        public GameObject SubElement14;
-        public GameObject SubElement15;
-        public GameObject SubElement16;
-        public GameObject SubElement17;
-        public GameObject SubElement18;
-        public GameObject SubElement19;
-        public GameObject SubElement20;
-
-        [HideInInspector]
-        public List<GameObject> SubElements;
-
-        //Fills list with SubElement GameObjects
-        public void MakeList()
-        {
-            SubElements.Add(SubElement1);
-            SubElements.Add(SubElement2);
-            SubElements.Add(SubElement3);
-            SubElements.Add(SubElement4);
-            SubElements.Add(SubElement5);
-            SubElements.Add(SubElement6);
-            SubElements.Add(SubElement7);
-            SubElements.Add(SubElement8);
-            SubElements.Add(SubElement9);
-            SubElements.Add(SubElement10);
-            SubElements.Add(SubElement11);
-            SubElements.Add(SubElement12);
-            SubElements.Add(SubElement13);
-            SubElements.Add(SubElement14);
-            SubElements.Add(SubElement15);
-            SubElements.Add(SubElement16);
-            SubElements.Add(SubElement17);
-            SubElements.Add(SubElement18);
-            SubElements.Add(SubElement19);
-            SubElements.Add(SubElement20);
         }
     }
 }
