@@ -19,11 +19,11 @@ public class MainMenu : MonoBehaviour
 
     public void OpenPuzzle()
     {
-
+        SceneManager.LoadScene("TestLevel");
     }
 
     public void OpenPixelSim()
     {
-
+        SceneManager.LoadScene("PixelSimulation");
     }
 }

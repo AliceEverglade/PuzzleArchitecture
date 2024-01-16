@@ -77,7 +77,7 @@ public class PieceSpawner : MonoBehaviour
         AddBoxColliders();
         SetBounds(newPiece);
 
-        GameObject puzzleContainer = GameObject.Find("PuzzleContainer");       
+        GameObject puzzleContainer = GameObject.Find("PuzzleContainer");
     }
 
     //Sets the bounds of a Piece's boxcollider based on its child objects.
