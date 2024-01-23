@@ -42,7 +42,7 @@ public class ConnectorSpawner : MonoBehaviour
 
     //Creates a connector
     [Button]
-    void SpawnConnector(Face face = Face.Front, XPosition xPosition = XPosition.Center, YPosition yPosition = YPosition.Center)
+    private void SpawnConnector(Face face = Face.Front, XPosition xPosition = XPosition.Center, YPosition yPosition = YPosition.Center)
     {
         GameObject connector = Instantiate(connectorPrefab);
 
@@ -70,7 +70,7 @@ public class ConnectorSpawner : MonoBehaviour
     }
 
     //Spawns connector at selected Face
-    void SetConnectorFace(GameObject connector, Face face)
+    private void SetConnectorFace(GameObject connector, Face face)
     {
         connector.transform.position = gameObject.transform.position;
         bounds = gameObject.GetComponent<BoxCollider>().bounds;
@@ -107,7 +107,7 @@ public class ConnectorSpawner : MonoBehaviour
     }
 
     //Sets connector to selected x and y positions.
-    void SetConnectorPosition(GameObject connector, XPosition xPosition, YPosition yPosition)
+    private void SetConnectorPosition(GameObject connector, XPosition xPosition, YPosition yPosition)
     {
         switch (xPosition)
         {
@@ -135,7 +135,7 @@ public class ConnectorSpawner : MonoBehaviour
     }
 
     //Calculates which ConnectorID the connector gets.
-    int DetermineConnectorID(int pieceID)
+    private int DetermineConnectorID(int pieceID)
     {
         bool unnamed = true;
         int currentConnector = 1;
@@ -195,7 +195,7 @@ public class ConnectorSpawner : MonoBehaviour
         SetBounds();
     }
 
-    void SetBounds()
+    private void SetBounds()
     {
         Bounds bounds = new Bounds();
         gameObject.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
@@ -218,5 +218,16 @@ public class ConnectorSpawner : MonoBehaviour
         //Encapsulate piece's BoxCollider's bounds to contain the previously established bounds, and set its size to the size of the bounds.
         gameObject.GetComponent<BoxCollider>().bounds.Encapsulate(bounds);
         gameObject.GetComponent<BoxCollider>().size = bounds.size;
+    }
+
+    [Button]
+    private void CopyConnector(GameObject pieceToCopyTo, GameObject connector)
+    {
+        int pieceID = pieceToCopyTo.transform.parent.gameObject.GetComponent<PieceData>().ID;
+
+        GameObject connectorCopy = Instantiate(connector);
+        connectorCopy.transform.parent = pieceToCopyTo.transform.parent.gameObject.transform;
+
+        connectorCopy.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
     }
 }

@@ -42,21 +42,10 @@ public class PieceSpawner : MonoBehaviour
             if (subPiece != null)
             {
                 subPiece.transform.parent = newPiece.transform;
+                subPiece.AddComponent<PieceDragging>();
+                subPiece.AddComponent<MaterialHandler>();
+                subPiece.AddComponent<ConnectorSpawner>();
             }
-        }
-
-        bool unnamed = true;
-        int currentPiece = 1;
-        while (unnamed) // while the new piece is not named
-        {
-            if (GameObject.Find("Piece" + currentPiece) == null) // if a piece with name Piece[currentPiece] does not exist
-            {
-                //Name the piece Piece[currentPiece]
-                newPiece.name = "Piece" + currentPiece;
-                newPiece.GetComponent<PieceData>().ID = currentPiece;
-                unnamed = false;
-            }
-            else { currentPiece++; }
         }
 
         GameObject tempContainer = GameObject.Find("tempContainer");

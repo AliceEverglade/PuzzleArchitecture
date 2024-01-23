@@ -19,18 +19,6 @@ public class Importer : MonoBehaviour
     private GameObject importedModel;
     private GameObject currentLayer;
     private GameObject highestLayer;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     //Imports 3D Model
     [Button]
@@ -42,6 +30,10 @@ public class Importer : MonoBehaviour
         importedModel.transform.parent = puzzleContainer.transform;
 
         DeterminePieces(importedModel, puzzleContainer);
+
+        GetNames();
+        CreatePieces();
+        SetPieceIDs();
     }
 
     private void DeterminePieces(GameObject model, GameObject container)
@@ -62,12 +54,6 @@ public class Importer : MonoBehaviour
             ModelLayers.Add(new List<GameObject>());
             FindMeshes(container.transform.GetChild(childIndex).gameObject, childIndex);
         }
-
-        Debug.Log(ModelLayers[0][0]);
-        Debug.Log(ModelLayers[0][1]);
-
-        GetNames();
-        CreatePieces();
     }
 
     private void FindPuzzlePieces(GameObject layer)
@@ -145,10 +131,15 @@ public class Importer : MonoBehaviour
             GameObject.Find("tempContainer").transform.GetChild(0).transform.parent = puzzleContainer.transform;
         }
     }
-}
 
-[System.Serializable]
-public class ModelLayer
-{
-    public List<GameObject> subElements;
+    private void SetPieceIDs()
+    {
+        int currentID = 1;
+
+        foreach (Transform piece in puzzleContainer.transform)
+        {
+            piece.GetComponent<PieceData>().ID = currentID;
+            currentID++;
+        }
+    }
 }
