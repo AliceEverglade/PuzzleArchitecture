@@ -7,14 +7,14 @@ using EasyButtons;
 
 public class PuzzleToJSON : MonoBehaviour
 {
-    [SerializeField] private Puzzle puzzle;
-    [SerializeField] private List<Connection> finalConnections;
-    [SerializeField] private string directoryPath;
+    private Puzzle puzzle;
+    private string directoryPath;
+    [SerializeField] private List<Connection> finalConnections => GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>().FinalConnections;
 
     // Start is called before the first frame update
     void Start()
     {
-        directoryPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Puzzles" + Path.DirectorySeparatorChar;
+        
     }
 
     // Update is called once per frame
@@ -25,6 +25,8 @@ public class PuzzleToJSON : MonoBehaviour
 
     [Button]
     public void PuzzleToJson(GameObject model, string filename) {
+        directoryPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Puzzles" + Path.DirectorySeparatorChar;
+
         puzzle = new Puzzle();
         GameObject puzzleContainer = GameObject.Find("PuzzleContainer");
 
@@ -124,6 +126,8 @@ public class PuzzleToJSON : MonoBehaviour
     [Button]
     public void LoadPuzzle(string fileName)
     {
+        directoryPath = Application.persistentDataPath + Path.DirectorySeparatorChar + "Puzzles" + Path.DirectorySeparatorChar;
+
         Puzzle puzzle = new Puzzle();
         string filePath = Path.Combine(directoryPath + fileName);
 
@@ -141,19 +145,37 @@ public class PuzzleToJSON : MonoBehaviour
                 }
 
                 puzzle = JsonUtility.FromJson<Puzzle>(json);
+                OpenPuzzle(puzzle);
             }
             catch (Exception e)
             {
                 Debug.LogError("Error occurred when trying to load data from: " + filePath + "\n" + e);
             }
         }
-
-        OpenPuzzle(puzzle);
+        else
+        {
+            Debug.LogError(filePath + " could not be found.");
+        }
     }
 
     public void OpenPuzzle(Puzzle loadedPuzzle)
     {
+        GameObject puzzleContainer = GameObject.Find("PuzzleContainer");
         puzzle = loadedPuzzle;
+        Instantiate(puzzle.PuzzleObject);
+        Debug.Log(puzzle.PuzzleObject.name);
+
+        foreach (Piece piece in puzzle.Pieces)
+        {
+            GameObject pieceObj = Instantiate(GameObject.Find(piece.name));
+            pieceObj.transform.parent = puzzleContainer.transform;
+
+            foreach (SubPiece subPiece in piece.SubPieces)
+            {
+                GameObject subPieceObj = Instantiate(GameObject.Find(subPiece.name));
+            }
+        }
+        
     }
 
     [Serializable]

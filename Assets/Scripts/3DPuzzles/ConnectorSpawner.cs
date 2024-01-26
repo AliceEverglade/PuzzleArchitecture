@@ -221,13 +221,19 @@ public class ConnectorSpawner : MonoBehaviour
     }
 
     [Button]
-    private void CopyConnector(GameObject pieceToCopyTo, GameObject connector)
+    private void CopyConnector(GameObject pieceToCopyTo, GameObject originalConnector)
     {
         int pieceID = pieceToCopyTo.transform.parent.gameObject.GetComponent<PieceData>().ID;
 
-        GameObject connectorCopy = Instantiate(connector);
+        GameObject connectorCopy = Instantiate(originalConnector);
         connectorCopy.transform.parent = pieceToCopyTo.transform.parent.gameObject.transform;
 
         connectorCopy.name = "P" + pieceID + "C" + DetermineConnectorID(pieceID).ToString();
+
+        Connection newConnection = new Connection();
+        newConnection.Connection1 = originalConnector;
+        newConnection.Connection2 = connectorCopy;
+
+        GameObject.Find("ConnectionManager").GetComponent<ConnectionManager>().FinalConnections.Add(newConnection);
     }
 }
