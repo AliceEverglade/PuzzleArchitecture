@@ -124,10 +124,10 @@ public class ConnectorSpawner : MonoBehaviour
         switch (yPosition)
         {
             case YPosition.Up:
-                connector.transform.position += transform.up * -bounds.extents.y;
+                connector.transform.position += transform.up * bounds.extents.y;
                 break;
             case YPosition.Down:
-                connector.transform.position += transform.right * bounds.extents.y;
+                connector.transform.position += transform.up * -bounds.extents.y;
                 break;
             default:
                 break;

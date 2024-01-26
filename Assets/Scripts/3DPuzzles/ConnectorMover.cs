@@ -40,22 +40,22 @@ public class ConnectorMover : MonoBehaviour
         switch (direction)
         {
             case moveDir.Left:
-                transform.position += new Vector3(transform.parent.GetComponent<BoxCollider>().bounds.extents.z * -distance, 0, 0);
+                transform.position += new Vector3(transform.parent.GetComponent<BoxCollider>().bounds.size.x * -distance, 0, 0);
                 break;
             case moveDir.Right:
-                transform.position += new Vector3(transform.parent.GetComponent<BoxCollider>().bounds.extents.z * distance, 0, 0);
+                transform.position += new Vector3(transform.parent.GetComponent<BoxCollider>().bounds.size.x * distance, 0, 0);
                 break;
             case moveDir.Up:
-                transform.position += new Vector3(0, transform.parent.GetComponent<BoxCollider>().bounds.extents.y * -distance, 0);
+                transform.position += new Vector3(0, transform.parent.GetComponent<BoxCollider>().bounds.size.y * distance, 0);
                 break;
             case moveDir.Down:
-                transform.position += new Vector3(0, transform.parent.GetComponent<BoxCollider>().bounds.extents.y * distance, 0);
+                transform.position += new Vector3(0, transform.parent.GetComponent<BoxCollider>().bounds.size.y * -distance, 0);
                 break;
             case moveDir.Forward:
-                transform.position += new Vector3 (0, 0, transform.parent.GetComponent<BoxCollider>().bounds.extents.z * distance);
+                transform.position += new Vector3 (0, 0, transform.parent.GetComponent<BoxCollider>().bounds.size.z * distance);
                 break;
             case moveDir.Backward:
-                transform.position += new Vector3(0, 0, transform.parent.GetComponent<BoxCollider>().bounds.extents.z * -distance);
+                transform.position += new Vector3(0, 0, transform.parent.GetComponent<BoxCollider>().bounds.size.z * -distance);
                 break;
         }
     }
